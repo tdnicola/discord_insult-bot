@@ -1,15 +1,13 @@
 const Discord = require('discord.js');
 const { prefix, token, rapidAPIHost, rapidAPIKey } = require('./config.json');
 const client = new Discord.Client();
-// const insult = require('./api');
-
 
 client.once('ready', () => {
     console.log('sup playa')
 })
 
-
 client.on('message', message => {
+
     if(message.content.startsWith(`${prefix}insult`)) {
         var unirest = require("unirest");
 
@@ -27,16 +25,24 @@ client.on('message', message => {
 
         req.end(function (res) {
             if (res.error) throw new Error(res.error);
-            // insult = res.body
-            // return insult
-            console.log(res.body);
+            var insult = res.raw_body.toLowerCase();
+            let member = message.mentions.members.first()
+
+            if (member == '' || member == null)
+                message.reply('Dude you had to include two things and you screwed that up...');
+            else {
+            message.channel.send(member.displayName + ', ' + insult)
+            }
         });
-    
-        let member = message.mentions.members.first()
-        message.channel.send(member.displayName + ', ' )
-        // console.log(insult)
     }
+    if (message.author != client.user ){
+        return
+    }
+        message.react("🔥")
 });
 
-// console.log(res.body)
+client.on('ready', () => {
+    client.user.setActivity('for Noobs', { type: 'Watching' });
+});
+
 client.login(token)
