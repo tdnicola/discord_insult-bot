@@ -31,7 +31,7 @@ client.on('message', message => {
             if (member == '' || member == null)
                 message.reply('Dude you had to include two things and you screwed that up...');
             else {
-            message.channel.send(member.displayName + ', ' + insult)
+            message.channel.send('@' + member.displayName + ', ' + insult)
             }
         });
     }
@@ -42,7 +42,7 @@ client.on('message', message => {
 });
 
 client.on('ready', () => {
-    client.user.setActivity('for Noobs', { type: 'Watching' });
+    client.user.setActivity('for Noobs. !insult @name', { type: 'Watching' });
 });
 
 client.login(token)
