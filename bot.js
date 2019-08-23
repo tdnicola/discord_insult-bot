@@ -73,7 +73,7 @@ client.on('message', message => {
             if (res.error) throw new Error(res.error);
 
             var totalResponses = res.body.data.length;
-            var resIndex = Math.floor((Math.random() * 10) +1) % totalResponses;
+            var resIndex = Math.floor(Math.random() * (totalResponses - 1));
             var selectedGif = res.body.data[resIndex]
 
             message.channel.send({files: [selectedGif.images.fixed_height.url]})
