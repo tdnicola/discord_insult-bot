@@ -63,17 +63,16 @@ client.on('message', message => {
 
     if (splitMessage.length >= 2) {
         splitMessage.shift()
-        splitMessage.length = 1
-        console.log(splitMessage)
+        splitMessage.join("+")
+        // splitMessage.length = 1
+        // console.log(splitMessage)
 
-        var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage)
+        var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage + '&limit=35')
         
         req.end(function (res) {
-                if (res.error) throw new Error(res.error);
-                // console.log(res.body.data)
+            if (res.error) throw new Error(res.error);
 
             var totalResponses = res.body.data.length;
-            console.log(totalResponses)
             var resIndex = Math.floor((Math.random() * 10) +1) % totalResponses;
             var selectedGif = res.body.data[resIndex]
 
@@ -103,7 +102,6 @@ client.on('message', message => {
             message.channel.send("Praise a homie with !praise @person")
             message.channel.send("Random gif? !gif ")
             message.channel.send("Search for a random gif? !gif fail")
-
     }
 });
 
