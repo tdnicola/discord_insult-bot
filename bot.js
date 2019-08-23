@@ -32,7 +32,7 @@ client.on('message', message => {
             if (member == '' || member == null)
                 message.reply('Dude you had to include two things and you screwed that up...');
             else {
-            message.channel.send('@' + message.author + ', ' + insult + '.');
+            message.channel.send(member + ', ' + insult + '.');
             message.react("🔥");
             }
         });
@@ -51,7 +51,7 @@ client.on('message', message => {
             if (member == '' || member == null)
                 message.reply('Dude you had to include two things and you screwed that up...');
             else {
-            message.channel.send('I\'m sorry I insulted you ' + message.author + ', ' + praise + '.');
+            message.channel.send('I\'m sorry I insulted you ' + member + ', ' + praise + '.');
             message.react("🙏");
             }
         });
