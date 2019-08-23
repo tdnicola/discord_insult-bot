@@ -59,16 +59,38 @@ client.on('message', message => {
 
 //Gifs
    else if(message.content.startsWith(`${prefix}gif`)) {
+    let splitMessage = message.content.split(' ')
+
+    if (splitMessage.length >= 2) {
+        splitMessage.shift()
+        splitMessage.length = 1
+        console.log(splitMessage)
+
+        var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage)
+        
+        req.end(function (res) {
+                if (res.error) throw new Error(res.error);
+                // console.log(res.body.data)
+
+            var totalResponses = res.body.data.length;
+            console.log(totalResponses)
+            var resIndex = Math.floor((Math.random() * 10) +1) % totalResponses;
+            var selectedGif = res.body.data[resIndex]
+
+            message.channel.send({files: [selectedGif.images.fixed_height.url]})
+        })
+    } else {
         var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
         
         req.end(function (res) {
             if (res.error) throw new Error(res.error);
-            var gif = res.body.data.url;
+            var gif = res.body.data.images.fixed_height.url;
 
             message.channel.send("I hope this is a good one..")
-            message.channel.send(gif)
+            message.channel.send({files: [gif]})
         });
     }
+}
 
 // random mocking
     else if(message.content.includes('i like')) {
@@ -80,6 +102,8 @@ client.on('message', message => {
             message.channel.send("Throw an insult with !insult @person")
             message.channel.send("Praise a homie with !praise @person")
             message.channel.send("Random gif? !gif ")
+            message.channel.send("Search for a random gif? !gif fail")
+
     }
 });
 

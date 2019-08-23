@@ -1,12 +1,14 @@
 <h1>Discord bot that insults your friends. </h1>
 
-<h2>Throw a random insult/praise or just spice it up with a random gif.</h2>
+<h2>Throw a random insult/praise or just spice it up with a random/searched gif.</h2>
 
 !insult @person
 <br>
 !praise @person
 <br>
 !gif
+<br>
+!gif searchterm
 <br>
 !help for info in chat on the commands
 <br>
