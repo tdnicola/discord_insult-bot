@@ -32,7 +32,7 @@ client.on('message', message => {
             if (member == '' || member == null)
                 message.reply('Dude you had to include two things and you screwed that up...');
             else {
-            message.channel.send('@' + member.displayName + ', ' + insult + '.');
+            message.channel.send('@' + message.author + ', ' + insult + '.');
             message.react("🔥");
             }
         });
@@ -51,7 +51,7 @@ client.on('message', message => {
             if (member == '' || member == null)
                 message.reply('Dude you had to include two things and you screwed that up...');
             else {
-            message.channel.send('I\'m sorry I insulted you @' + member.displayName + ', ' + praise + '.');
+            message.channel.send('I\'m sorry I insulted you ' + message.author + ', ' + praise + '.');
             message.react("🙏");
             }
         });
@@ -68,6 +68,12 @@ client.on('message', message => {
             message.channel.send("I hope this is a good one..")
             message.channel.send(gif)
         });
+    }
+
+// random mocking
+    else if(message.content.includes('i like')) {
+        if (message.author == client.user) return
+        message.channel.send('I\'m ' + message.author + ' and ' + message.content + ', herp derp...')
     }
 
     else if(message.content.startsWith(`${prefix}help`)) {
