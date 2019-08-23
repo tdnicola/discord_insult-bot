@@ -10,12 +10,8 @@ client.once('ready', () => {
 
 client.on('message', message => {
 
-    // if (message.author == client.user ){
-    //     return
-    // }
-
+//Insults
     if(message.content.startsWith(`${prefix}insult`)) {
-        // if (message.author == client.user ) return
 
         var req = unirest("GET", "https://lakerolmaker-insult-generator-v1.p.rapidapi.com/");
 
@@ -28,7 +24,6 @@ client.on('message', message => {
             "x-rapidapi-key": rapidAPIKey
         });
 
-
         req.end(function (res) {
             if (res.error) throw new Error(res.error);
             var insult = res.raw_body.toLowerCase();
@@ -39,11 +34,11 @@ client.on('message', message => {
             else {
             message.channel.send('@' + member.displayName + ', ' + insult + '.');
             message.react("🔥");
-            
             }
         });
     }
 
+//praises
     else if(message.content.startsWith(`${prefix}praise`)) {
 
         var req = unirest("GET", "https://complimentr.com/api");
@@ -62,6 +57,7 @@ client.on('message', message => {
         });
     }
 
+//Gifs
    else if(message.content.startsWith(`${prefix}gif`)) {
         var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
         
@@ -75,15 +71,14 @@ client.on('message', message => {
     }
 
     else if(message.content.startsWith(`${prefix}help`)) {
-            message.channel.send("Throw and insult with !insult @person")
+            message.channel.send("Throw an insult with !insult @person")
             message.channel.send("Praise a homie with !praise @person")
             message.channel.send("Random gif? !gif ")
     }
 });
 
-
 client.on('ready', () => {
-    client.user.setActivity('for Noobs. !help for info', { type: 'Poon' });
+    client.user.setActivity(' !help for info', { type: 'WATCHING' });
 });
 
 client.login(token);
