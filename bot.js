@@ -59,37 +59,37 @@ client.on('message', message => {
 
 //Gifs
    else if(message.content.startsWith(`${prefix}gif`)) {
-    let splitMessage = message.content.split(' ')
+        let splitMessage = message.content.split(' ')
 
-    if (splitMessage.length >= 2) {
-        splitMessage.shift()
-        splitMessage.join("+")
-        // splitMessage.length = 1
-        // console.log(splitMessage)
+        if (splitMessage.length >= 2) {
+            splitMessage.shift()
+            splitMessage.join("+")
+            // splitMessage.length = 1
+            // console.log(splitMessage)
 
-        var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage + '&limit=35')
-        
-        req.end(function (res) {
-            if (res.error) throw new Error(res.error);
+            var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage + '&limit=35')
+            
+            req.end(function (res) {
+                if (res.error) throw new Error(res.error);
 
-            var totalResponses = res.body.data.length;
-            var resIndex = Math.floor(Math.random() * (totalResponses - 1));
-            var selectedGif = res.body.data[resIndex]
+                var totalResponses = res.body.data.length;
+                var resIndex = Math.floor(Math.random() * (totalResponses - 1));
+                var selectedGif = res.body.data[resIndex]
 
-            message.channel.send({files: [selectedGif.images.fixed_height.url]})
-        })
-    } else {
-        var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
-        
-        req.end(function (res) {
-            if (res.error) throw new Error(res.error);
-            var gif = res.body.data.images.fixed_height.url;
+                message.channel.send({files: [selectedGif.images.fixed_height.url]})
+            })
+        } else {
+            var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
+            
+            req.end(function (res) {
+                if (res.error) throw new Error(res.error);
+                var gif = res.body.data.images.fixed_height.url;
 
-            message.channel.send("I hope this is a good one..")
-            message.channel.send({files: [gif]})
-        });
+                message.channel.send("I hope this is a good one..")
+                message.channel.send({files: [gif]})
+            });
+        }
     }
-}
 
 // random mocking
     else if(message.content.includes('i like')) {
@@ -103,6 +103,25 @@ client.on('message', message => {
             message.channel.send("Random gif? !gif ")
             message.channel.send("Search for a random gif? !gif fail")
     }
+
+    else if (message.content.startsWith(`${prefix}moo`)) {
+        let splitMessage = message.content.split(' ')
+
+        if (splitMessage.length >= 2) {
+            splitMessage.shift()
+            splitMessage.join("+")
+        var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + '&format=text')
+
+        req.end(function (res) {
+            if (res.error) throw new Error(res.error);
+            // message.channel.send(res.body)
+            console.log(res.body)
+        })
+        } else {
+            message.channel.send("Gotta have words behind it homie.")
+        }
+    }
+
 });
 
 client.on('ready', () => {
