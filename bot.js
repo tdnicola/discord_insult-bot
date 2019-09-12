@@ -70,13 +70,18 @@ client.on('message', message => {
             var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage + '&limit=35')
             
             req.end(function (res) {
-                if (res.error) throw new Error(res.error);
-
                 var totalResponses = res.body.data.length;
+                if (res.error) {
+                    throw new Error(res.error);
+                }
+                else if (!totalResponses) {
+                    message.channel.send('Weird search homie, no results..')
+                } else {
                 var resIndex = Math.floor(Math.random() * (totalResponses - 1));
                 var selectedGif = res.body.data[resIndex]
 
                 message.channel.send({files: [selectedGif.images.fixed_height.url]})
+                }
             })
         } else {
             var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
@@ -109,16 +114,18 @@ client.on('message', message => {
 
         if (splitMessage.length >= 2) {
             splitMessage.shift()
-            splitMessage.join("+")
-        var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + '&format=text')
+            splitMessage = splitMessage.join("+")
+            var endOfMessage = '+.+Dear+lord+make+this+pain+end...'
+            console.log(splitMessage)
+        var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + endOfMessage + '&format=text');
 
         req.end(function (res) {
             if (res.error) throw new Error(res.error);
-            // message.channel.send(res.body)
-            console.log(res.body)
+            message.channel.send('Deformed cow says:' + res.body);
+            console.log(res.body);
         })
         } else {
-            message.channel.send("Gotta have words behind it homie.")
+            message.channel.send("Gotta have words behind it homie.");
         }
     }
 

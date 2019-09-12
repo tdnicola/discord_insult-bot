@@ -2,6 +2,7 @@
 
 <h2>Throw a random insult/praise or just spice it up with a random/searched gif.</h2>
 
+```
 !insult @person
 <br>
 !praise @person
@@ -12,7 +13,7 @@
 <br>
 !help for info in chat on the commands
 <br>
-
+```
 Insults from:
 <br>
 https://rapidapi.com/Lakerolmaker/api/insult-generator/endpoints API.
