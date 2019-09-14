@@ -63,7 +63,7 @@ client.on('message', message => {
 
         if (splitMessage.length >= 2) {
             splitMessage.shift()
-            splitMessage.join("+")
+            splitMessage = splitMessage.join("+")
             // splitMessage.length = 1
             // console.log(splitMessage)
 
