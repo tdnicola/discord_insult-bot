@@ -11,8 +11,11 @@
 <br>
 !gif searchterm
 <br>
+!moo sentence
+<br>
 !help for info in chat on the commands
 <br>
+
 ```
 Insults from:
 <br>
@@ -24,8 +27,11 @@ https://complimentr.com/api
 <br>
 Gifs from:
 <br>
-api.giphy.com/v1/gifs/random
-
+https://api.giphy.com/v1/gifs/random
+<br>
+CowSay from:
+<br>
+http://cowsay.morecode.org/
 <br>
 Invite?
 <br>
