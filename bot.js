@@ -32,8 +32,10 @@ client.on('message', message => {
             if (member == '' || member == null) {
                 message.reply('Dude you had to include two things and you screwed that up...');
             } else {
-                message.channel.send(member + ', ' + insult + '.');
-                message.react("🔥");
+                message.channel.send(member + ', ' + insult + '.')
+                    .then(e => {
+                        e.react("🔥");
+                    });
             }
         });
     }
@@ -50,8 +52,10 @@ client.on('message', message => {
             if (member == '' || member == null) {
                 message.reply('Dude you had to include two things and you screwed that up...');
             } else {
-            message.channel.send(member + ', ' + praise + '.');
-            message.react("🙏");
+                message.channel.send(member + ', ' + praise + '.')
+                    .then(e => {
+                        e.react("🙏");
+                    });
             }
         });
     }
