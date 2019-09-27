@@ -2,3 +2,4 @@ config.json
 node_modules/
 api.js
 .DS_Store
+Procfile

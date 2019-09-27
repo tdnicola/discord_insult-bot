@@ -12,17 +12,17 @@ client.on('message', message => {
 
 //Insults
     if(message.content.startsWith(`${prefix}insult`)) {
+        var req = unirest("GET", "https://insult.mattbas.org/api/insult");
 
-        var req = unirest("GET", "https://lakerolmaker-insult-generator-v1.p.rapidapi.com/");
+        // old insult site not currently working https://lakerolmaker-insult-generator-v1.p.rapidapi.com/
+        // req.query({
+        //     "mode": "random"
+        // });
 
-        req.query({
-            "mode": "random"
-        });
-
-        req.headers({
-            "x-rapidapi-host": rapidAPIHost,
-            "x-rapidapi-key": rapidAPIKey
-        });
+        // req.headers({
+        //     "x-rapidapi-host": rapidAPIHost,
+        //     "x-rapidapi-key": rapidAPIKey
+        // });
 
         req.end(function (res) {
             if (res.error) throw new Error(res.error);
@@ -32,8 +32,8 @@ client.on('message', message => {
             if (member == '' || member == null) {
                 message.reply('Dude you had to include two things and you screwed that up...');
             } else {
-            message.channel.send(member + ', ' + insult + '.');
-            message.react("🔥");
+                message.channel.send(member + ', ' + insult + '.');
+                message.react("🔥");
             }
         });
     }
@@ -50,7 +50,7 @@ client.on('message', message => {
             if (member == '' || member == null) {
                 message.reply('Dude you had to include two things and you screwed that up...');
             } else {
-            message.channel.send('I\'m sorry I insulted you ' + member + ', ' + praise + '.');
+            message.channel.send(member + ', ' + praise + '.');
             message.react("🙏");
             }
         });
@@ -63,8 +63,6 @@ client.on('message', message => {
         if (splitMessage.length >= 2) {
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
-            // splitMessage.length = 1
-            // console.log(splitMessage)
 
             var req = unirest("GET", "https://api.giphy.com/v1/gifs/search?&api_key=" + gifToken + "&q=" + splitMessage + '&limit=35');
             
