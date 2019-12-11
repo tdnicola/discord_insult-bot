@@ -2,13 +2,14 @@ const Discord = require('discord.js');
 const { prefix, token, rapidAPIHost, rapidAPIKey, gifToken } = require('./config.json');
 const client = new Discord.Client();
 var unirest = require("unirest");
+var ytdl = require('ytdl-core');
 
 
 client.once('ready', () => {
     console.log('sup playa');
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 
 //Insults
     if(message.content.startsWith(`${prefix}insult`)) {
@@ -62,9 +63,15 @@ client.on('message', message => {
 
 //Gifs
    else if(message.content.startsWith(`${prefix}gif`)) {
-        let splitMessage = message.content.split(' ');
+        noWeirdEmojis = message.content.replace(/[^\w\s]|_/g, "")
+        console.log(noWeirdEmojis)
+ 
+    
+        let splitMessage = noWeirdEmojis.split(' ');
 
+        console.log(splitMessage)
         if (splitMessage.length >= 2) {
+
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
 
@@ -75,14 +82,14 @@ client.on('message', message => {
 
                 if (res.error) {
                     throw new Error(res.error);
-                }
-                else if (!totalResponses) {
-                    message.channel.send('Weird search homie, no results..');
+                } else if (res.body === undefined) {
+                    console.log(res)
+                    return
                 } else {
-                var resIndex = Math.floor(Math.random() * (totalResponses));
-                var selectedGif = res.body.data[resIndex];
+                    var resIndex = Math.floor(Math.random() * (totalResponses));
+                    var selectedGif = res.body.data[resIndex];
 
-                message.channel.send({files: [selectedGif.images.fixed_height.url]});
+                    message.channel.send({files: [selectedGif.images.fixed_height.url]});
                 }
             });
         } else {
@@ -90,6 +97,7 @@ client.on('message', message => {
             
             req.end(function (res) {
                 if (res.error) throw new Error(res.error);
+                
                 var gif = res.body.data.images.fixed_height.url;
 
                 message.channel.send("I hope this is a good one..");
@@ -146,10 +154,33 @@ client.on('message', message => {
             message.channel.send("Gotta have words behind it homie.");
         }
     }
+
+    //workinng with a music bot
+    else if (message.content.startsWith(`${prefix}play`)) {
+        const voiceChannel = message.member.voiceChannel;
+        if(!voiceChannel) return message.channel.send('join a voice channel homie');
+
+        try {
+            var connection = await voiceChannel.join();
+        } catch (err) {
+             console.log(`can\'t join ${err}`)
+        }
+        const dispatcher = connection.playStream(ytdl(args[1]))
+            .on('end', () => {
+                console.log('song ended')
+                voiceChannel.leave();
+            })
+            .on('error', () => {
+                console.error(error);
+            })
+
+            dispatcher.setVolumeLogarithmic(5 / 5);
+
+    }
 });
 
 client.on('ready', () => {
-    client.user.setActivity(' !help for info', { type: 'WATCHING' });
+    client.user.setActivity(' !help for info', { type: 'Scanning for noobs' });
 });
 
 client.login(token);
