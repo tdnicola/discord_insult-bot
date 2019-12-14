@@ -63,15 +63,12 @@ client.on('message', async message => {
 
 //Gifs
    else if(message.content.startsWith(`${prefix}gif`)) {
+       //Removing emojis that crashed app
         noWeirdEmojis = message.content.replace(/[^\w\s]|_/g, "")
-        console.log(noWeirdEmojis)
  
-    
         let splitMessage = noWeirdEmojis.split(' ');
 
-        console.log(splitMessage)
         if (splitMessage.length >= 2) {
-
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
 
@@ -82,10 +79,10 @@ client.on('message', async message => {
 
                 if (res.error) {
                     throw new Error(res.error);
-                } else if (res.body === undefined) {
-                    console.log(res)
-                    return
+                } else if (!totalResponses) {
+                    message.channel.send('Weird search homie, no results..');
                 } else {
+                    console.log(res)
                     var resIndex = Math.floor(Math.random() * (totalResponses));
                     var selectedGif = res.body.data[resIndex];
 
@@ -156,27 +153,27 @@ client.on('message', async message => {
     }
 
     //workinng with a music bot
-    else if (message.content.startsWith(`${prefix}play`)) {
-        const voiceChannel = message.member.voiceChannel;
-        if(!voiceChannel) return message.channel.send('join a voice channel homie');
+    // else if (message.content.startsWith(`${prefix}play`)) {
+    //     const voiceChannel = message.member.voiceChannel;
+    //     if(!voiceChannel) return message.channel.send('join a voice channel homie');
 
-        try {
-            var connection = await voiceChannel.join();
-        } catch (err) {
-             console.log(`can\'t join ${err}`)
-        }
-        const dispatcher = connection.playStream(ytdl(args[1]))
-            .on('end', () => {
-                console.log('song ended')
-                voiceChannel.leave();
-            })
-            .on('error', () => {
-                console.error(error);
-            })
+    //     try {
+    //         var connection = await voiceChannel.join();
+    //     } catch (err) {
+    //          console.log(`can\'t join ${err}`)
+    //     }
+    //     const dispatcher = connection.playStream(ytdl(args[1]))
+    //         .on('end', () => {
+    //             console.log('song ended')
+    //             voiceChannel.leave();
+    //         })
+    //         .on('error', () => {
+    //             console.error(error);
+    //         })
 
-            dispatcher.setVolumeLogarithmic(5 / 5);
+    //         dispatcher.setVolumeLogarithmic(5 / 5);
 
-    }
+    // }
 });
 
 client.on('ready', () => {
