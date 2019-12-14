@@ -82,7 +82,7 @@ client.on('message', async message => {
                 } else if (!totalResponses) {
                     message.channel.send('Weird search homie, no results..');
                 } else {
-                    console.log(res)
+                    // console.log(res)
                     var resIndex = Math.floor(Math.random() * (totalResponses));
                     var selectedGif = res.body.data[resIndex];
 
@@ -152,6 +152,34 @@ client.on('message', async message => {
         }
     }
 
+//YW message
+    else if(message.content.startsWith(`ty bot`)) {
+        message.author.send('You\'re welcome. Don\'t tell anyone I said that.')
+    }
+
+//8Ball
+    else if (message.content.startsWith(`${prefix}8ball`)) {
+        let query = message.content.split(' ')
+        query.shift()
+        let answer = query.join(' ')
+        var req = unirest('get',"https://8ball.delegator.com/magic/JSON/" + answer)
+
+        req.end((res) => {
+            if (res.error) throw new Error(res.error);
+            message.channel.send('```' + "Question: " + res.body.magic.question + '\n' + "Answer: " + res.body.magic.answer + '```');
+            console.log(res.body);
+        });
+
+    }
+
+//         let params = encodeURIComponent("Is today going to be a good day?");
+// let uri = "https://8ball.delegator.com/magic/JSON/" + params;
+// fetch(uri)
+//   .then(response => response.json())
+//   .then(json => {
+//     console.log(json);
+//   });
+//     )
     //workinng with a music bot
     // else if (message.content.startsWith(`${prefix}play`)) {
     //     const voiceChannel = message.member.voiceChannel;
