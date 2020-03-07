@@ -16,6 +16,11 @@ client.on('message', async message => {
         message.channel.send('Hmmm something went wrong with the result..')
     }
 
+    // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
+
+        if (message.author.bot) return 
+
+
 
 //Insults
     if(message.content.startsWith(`${prefix}insult`)) {
@@ -135,7 +140,7 @@ client.on('message', async message => {
             message.channel.send("Random gif? !gif ");
             message.channel.send("Search for a random gif? !gif fail");
             message.channel.send("CowSpeak? !moo");
-            message.channel.send("Magic 8ball to answer your questions? !8ball why do we suck at league?")
+            message.channel.send("Magic 8ball to answer your questions? !8ball why do we suck at league?");
     }
 
 //cow speak
@@ -237,10 +242,44 @@ client.on('message', async message => {
     //         dispatcher.setVolumeLogarithmic(5 / 5);
 
     // }
+    // const gtfo = client.emojis.find(emoji => emoji.name === "gfto");
+    // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
+
+    else if(message.content.startsWith('hello')) {
+    // else if(message.reactions >= 1) {
+        if (message.author.bot) return 
+        const generalChannel = message.guild.channels.find(channel => channel.name === "general")
+        const wrongChannelName = message.channel.name
+        const wrongChannel = message.guild.channels.find(channel => channel.name === wrongChannelName)
+
+        wrongChannel.fetchMessages({ limit: 10 })
+        .then(messages => messages.map(message => {
+                console.log(message.reactions.map(single => {
+                    if (single._emoji.id) {
+                        generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
+                        message.delete()
+                    }
+                }));
+        }))
+        .catch(console.error);
+
+        const gtfo =  message.reactions.map((emojie) => emojie.name)
+
+        // console.log(message.reactions.map((emojie) => emojie.name))
+        // const emoji = message.guild.emojis.find(emoji => emoji.name === 'gtfo');
+       
+        // message.delete()
+        // console.log(message.author)
+        // message.reply(message.author.displayAvatarURL);
+    }
 });
 
+
+//move function
+
+
 client.on('ready', () => {
-    client.user.setActivity(' !help for info', { type: 'Scanning for noobs' });
+    client.user.setActivity(' !help for info', { type: 'WATCHING' });
 });
 
 client.login(token);

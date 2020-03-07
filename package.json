@@ -4,10 +4,10 @@
   "description": "",
   "main": "bot.js",
   "dependencies": {
-    "discord.js": "^11.5.1",
+    "discord.js": "^11.6.1",
     "opusscript": "0.0.7",
     "unirest": "^0.6.0",
-    "ytdl-core": "^1.0.0"
+    "ytdl-core": "^1.0.9"
   },
   "devDependencies": {},
   "scripts": {
