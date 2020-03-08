@@ -245,23 +245,28 @@ client.on('message', async message => {
     // const gtfo = client.emojis.find(emoji => emoji.name === "gfto");
     // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
 
-    else if(message.content.startsWith('hello')) {
+    else if(message.content.startsWith(`${prefix}move`)) {
     // else if(message.reactions >= 1) {
         if (message.author.bot) return 
         const generalChannel = message.guild.channels.find(channel => channel.name === "general")
         const wrongChannelName = message.channel.name
         const wrongChannel = message.guild.channels.find(channel => channel.name === wrongChannelName)
-
-        wrongChannel.fetchMessages({ limit: 10 })
-        .then(messages => messages.map(message => {
-                console.log(message.reactions.map(single => {
-                    if (single._emoji.id) {
-                        generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
-                        message.delete()
-                    }
-                }));
-        }))
-        .catch(console.error);
+        
+        if(message.member.roles.find(r => r.name === "admin")) {
+            wrongChannel.fetchMessages({ limit: 20 })
+            .then(messages => messages.map(message => {
+                        message.reactions.map(single => {
+                                console.log(single._emoji.id);
+                                if (single._emoji.id == '685883353773244435' || single._emoji.id == '494716469070790657') {
+                                        generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
+                                        message.delete()
+                                    }
+                                });
+                        }))
+            .catch(console.error);
+        } else {
+            message.channel.send('noob of the noobs')
+        }
 
         const gtfo =  message.reactions.map((emojie) => emojie.name)
 
@@ -273,9 +278,6 @@ client.on('message', async message => {
         // message.reply(message.author.displayAvatarURL);
     }
 });
-
-
-//move function
 
 
 client.on('ready', () => {
