@@ -244,37 +244,55 @@ client.on('message', async message => {
     // }
     // const gtfo = client.emojis.find(emoji => emoji.name === "gfto");
     // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
-
+    
     else if(message.content.startsWith(`${prefix}move`)) {
-    // else if(message.reactions >= 1) {
         if (message.author.bot) return 
         const generalChannel = message.guild.channels.find(channel => channel.name === "general")
         const wrongChannelName = message.channel.name
         const wrongChannel = message.guild.channels.find(channel => channel.name === wrongChannelName)
-        
-        if(message.member.roles.find(r => r.name === "admin")) {
-            wrongChannel.fetchMessages({ limit: 20 })
-            .then(messages => messages.map(message => {
-                        message.reactions.map(single => {
-                                console.log(single._emoji.id);
-                                if (single._emoji.id == '685883353773244435' || single._emoji.id == '494716469070790657') {
-                                        generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
+        const query = message.content.split(' ')
+
+        //checking admin privileges 
+            if (message.member.roles.find(r => r.name === "admin")) {
+
+                    // fetching last 20 messages to see if the emoji is on any to move
+                    wrongChannel.fetchMessages({ limit: 20 })
+                    .then(messages => messages.map(message => {
+                                message.reactions.map(single => {
+                                        // custom emoji id
+                                        if (single._emoji.id == '685883353773244435' || single._emoji.id == '494716469070790657') {
+
+                                                // if query length is greater than than 1 then split names to get channel name
+                                                if (query.length >= 2) {
+                                                    removeFirstContent = query.shift()
+                                                    
+                                                    //servers names do not have any spaces, if spaces are received, default to dashes 
+                                                    newChannelName = query.join('-')
+
+                                                    //getting new channel nale
+                                                    const newChannelSend = message.guild.channels.find(channel => channel.name === newChannelName)
+                                                    newChannelSend.send(message.author.username + ' says' + '```' + message.content + '```')
+
+                                                } else {
+                                                    //default to send to general channel
+                                                    generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
+                                                }
+                                        }
                                         message.delete()
-                                    }
                                 });
-                        }))
-            .catch(console.error);
-        } else {
-            message.channel.send('noob of the noobs')
-        }
+                    }))
+                    .catch(console.error);
+                
+            // if no admin privileges then message be whispered to them
+            } else {
+                message.author.send('noob of the noobs')
+            }
 
         const gtfo =  message.reactions.map((emojie) => emojie.name)
 
-        // console.log(message.reactions.map((emojie) => emojie.name))
         // const emoji = message.guild.emojis.find(emoji => emoji.name === 'gtfo');
        
-        // message.delete()
-        // console.log(message.author)
+        message.delete()
         // message.reply(message.author.displayAvatarURL);
     }
 });
