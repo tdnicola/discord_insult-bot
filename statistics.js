@@ -1,21 +1,22 @@
 const unirest = require("unirest");
 const { connectionString } = require('./config.json');
-const { Client } = require('pg');
+const { Client, Pool } = require('pg');
 
-const client = new Client({
+const pool = new Pool({
     connectionString,
     ssl: true,
 });
+
+
 
 const stats = {
     queryString: 'SELECT * FROM statistics',
     update: 
         function() {
-            client.connect()
+            pool.connect()
             .then(() => {
-                client.query(this.queryString, (err, result) => {
+                pool.query(this.queryString, (err, result) => {
                     console.log(result);
-                    client.end();
                 })
             })
             .catch((err) => {
