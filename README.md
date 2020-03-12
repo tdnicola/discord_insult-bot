@@ -1,4 +1,4 @@
-# Discord bot that insults your friends. 
+# Discord bot that insults/praises + more to your friends. 
 
 ## Throw a random insult/praise or just spice it up with a random/searched gif.
 
@@ -33,29 +33,15 @@ ___
 
 ```
 
-Insults from:
+API links:
 
-https://rapidapi.com/Lakerolmaker/api/insult-generator/endpoints API.
+* ~~[Insults](https://rapidapi.com/Lakerolmaker/api/insult-generator/endpoints)~~ No longer works
+* [Insults](https://insult.mattbas.org/api/insult)
+* [Praises](https://complimentr.com/api)
+* [Gifs](https://api.giphy.com/v1/gifs/random)
+* [CowSay](http://cowsay.morecode.org/)
+* [8Ball](https://8ball.delegator.com/)
 
-Praises from: 
-
-https://complimentr.com/api
-
-Gifs from:
-
-https://api.giphy.com/v1/gifs/random
-
-CowSay from:
-
-http://cowsay.morecode.org/
-
-CowSay from:
-
-http://cowsay.morecode.org/
-
-8Ball from:
-
-https://8ball.delegator.com/
 
 Invite?
 

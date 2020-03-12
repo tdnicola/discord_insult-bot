@@ -34,6 +34,7 @@ client.on('message', async message => {
         message.channel.send("Search for a random gif? !gif fail");
         message.channel.send("CowSpeak? !moo");
         message.channel.send("Magic 8ball to answer your questions? !8ball why do we suck at league?");
+        message.channel.send("If you're special, emojie gtfo on a message and !move");
     }
 
 
