@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
-const { prefix, token, rapidAPIHost, rapidAPIKey, gifToken } = require('./config.json');
+const { prefix, token, rapidAPIHost, rapidAPIKey, gifToken, url } = require('./config.json');
 const client = new Discord.Client();
-var unirest = require("unirest");
-var ytdl = require('ytdl-core');
+const unirest = require("unirest");
+const ytdl = require('ytdl-core');
 
+const stats = require('./statistics');
 
 client.once('ready', () => {
     console.log('sup playa');
@@ -15,9 +16,7 @@ client.on('message', async message => {
     const errorMessage = () => {
         message.channel.send('Hmmm something went wrong with the result..')
     }
-
     // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
-
         if (message.author.bot) return 
 
 
@@ -25,16 +24,6 @@ client.on('message', async message => {
 //Insults
     if(message.content.startsWith(`${prefix}insult`)) {
         var req = unirest("GET", "https://insult.mattbas.org/api/insult");
-
-        // old insult site not currently working https://lakerolmaker-insult-generator-v1.p.rapidapi.com/
-        // req.query({
-        //     "mode": "random"
-        // });
-
-        // req.headers({
-        //     "x-rapidapi-host": rapidAPIHost,
-        //     "x-rapidapi-key": rapidAPIKey
-        // });
 
         req.end((res) => {
             if (res.error) {
@@ -50,6 +39,7 @@ client.on('message', async message => {
                     message.channel.send(member + ', ' + insult + '.')
                         .then(e => {
                             e.react("🔥");
+                            console.log(stats.stats.statsGet());
                         });
                 }
             }
