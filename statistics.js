@@ -8,81 +8,74 @@ const client = new Client({
 });
 
 const stats = {
-    statsGet: function() {
-        client.connect()
-        .then(() => {
-            client.query('SELECT * FROM statistics', (err, result) => {
-                client.end();
-                return result + err
+    queryString: 'SELECT * FROM statistics',
+    update: 
+        function() {
+            client.connect()
+            .then(() => {
+                client.query(this.queryString, (err, result) => {
+                    console.log(result);
+                    client.end();
+                })
             })
-        })
+            .catch((err) => {
+                console.log(err);
+            })
 
         },
-    insultPost: function() {
-        client.connect()
-        .then(() => {
-            client.query('UPDATE statistics set insult = insult + 1', (err, result) => {
-                console.log(result, err);
-                client.end();
-              })
+}
 
-        })
-    },
-    praisePost: function() {
-        client.connect()
-        .then(() => {
-            client.query('UPDATE statistics set praise = praise + 1', (err, result) => {
-                client.end();
-              })
+const insult = Object.create(stats)
+insult.queryString = 'UPDATE statistics set insult = insult + 1'
+insult.update = function() {
+    return stats.update.call(this)
+};
 
-        })
-    },
-    gifPost: function() {
-        client.connect()
-        .then(() => {
-            client.query('UPDATE statistics set gif = gif + 1', (err, result) => {
-                client.end();
-              })
-        })
-    },
-    cowPost: function() {
-        client.connect()
-        .then(() => {
-            client.query('UPDATE statistics set cow = cow + 1', (err, result) => {
-                console.log(result, err);
-                client.end();
-              })
-        })
+const praise = Object.create(stats)
+praise.queryString = 'UPDATE statistics set praise = praise + 1'
+praise.update = function() {
+    return stats.update.call(this)
+};
 
-    },
-    tyPost: function() {
-        client.connect()
-            .then(() => {
-                client.query('UPDATE statistics set ty = ty + 1', (err, result) => {
-                    console.log(result, err);
-                    client.end();
-                  })
-            })
-    },
-    answerPost: function() {
-        client.connect()
-        .then(() => {
-            client.query('UPDATE statistics set answer = answer + 1', (err, result) => {
-                client.end();
-              })
+const gif = Object.create(stats)
+gif.queryString = 'UPDATE statistics set gif = gif + 1'
+gif.update = function() {
+    return stats.update.call(this)
+};
 
-        })
-    },
-    movedPosts: function() {
-        client.connect()
-        .then((
-            client.query('UPDATE statistics set move = move + 1', (err, result) => {
-                console.log(result, err);
-                client.end();
-              })
-        ))
-    },
+const cow = Object.create(stats)
+cow.queryString = 'UPDATE statistics set cow = cow + 1'
+cow.update = function() {
+    return stats.update.call(this)
+};
+
+const ty = Object.create(stats)
+ty.queryString = 'UPDATE statistics set ty = ty + 1'
+ty.update = function() {
+    return stats.update.call(this)
+};
+
+const answer = Object.create(stats)
+answer.queryString = 'UPDATE statistics set answer = answer + 1'
+answer.update = function() {
+    return stats.update.call(this)
+};
+
+const move = Object.create(stats)
+move.queryString = 'UPDATE statistics set move = move + 1'
+move.update = function() {
+    return stats.update.call(this)
+};
+
+module.exports = {
+    stats,
+    insult,
+    praise,
+    gif,
+    cow,
+    ty,
+    answer,
+    move,
     
 }
 
-module.exports.stats = stats

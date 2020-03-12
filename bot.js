@@ -2,14 +2,12 @@ const Discord = require('discord.js');
 const { prefix, token, rapidAPIHost, rapidAPIKey, gifToken, url } = require('./config.json');
 const client = new Discord.Client();
 const unirest = require("unirest");
-const ytdl = require('ytdl-core');
 
 const stats = require('./statistics');
 
 client.once('ready', () => {
     console.log('sup playa');
 });
-
 
 client.on('message', async message => {
     //Error Messages
@@ -59,7 +57,7 @@ client.on('message', async message => {
                             e.react("🔥");
                         })
                         .then(() => {
-                            stats.stats.insultPost()
+                            stats.insult.update()
                         })
                         .catch((err) => {
                             oatMeal('insult error ' + err)
@@ -90,7 +88,7 @@ client.on('message', async message => {
                             e.react("🙏");
                         })
                         .then(() => {
-                            stats.stats.praisePost()
+                            stats.praise.update()
                         })
                         .catch((err) => {
                             oatMeal('praise error ' + err)
@@ -129,7 +127,7 @@ client.on('message', async message => {
 
                     message.channel.send({files: [selectedGif.images.fixed_height.url]})
                     .then(() => {
-                        stats.stats.gifPost()
+                        stats.gif.update()
                     })
                     .catch((err) => {
                         oatMeal('gif error ' + err)
@@ -150,7 +148,7 @@ client.on('message', async message => {
                     message.channel.send("I hope this is a good one..");
                     message.channel.send({files: [gif]})
                     .then(() => {
-                        stats.stats.gifPost()
+                        stats.gif.update()
                     })
                     .catch((err) => {
                         oatMeal('gif error ' + err)
@@ -185,7 +183,7 @@ client.on('message', async message => {
             } else {
                 message.channel.send('```' + res.body + '```')
                 .then(() => {
-                    stats.stats.cowPost()
+                    stats.cow.update()
                 })
                 .catch((err) => {
                     oatMeal('cow error ' + err)
@@ -202,7 +200,7 @@ client.on('message', async message => {
     else if(message.content.toLowerCase().startsWith(`ty bot`)) {
         message.author.send('You\'re welcome. Don\'t tell anyone I said that.')
         .then(() => {
-            stats.stats.tyPost()
+            stats.ty.update()
         })
         .catch((err) => {
             oatMeal('ty error ' + err)
@@ -228,7 +226,7 @@ client.on('message', async message => {
                 else {
                     message.channel.send('```' + "Question: " + res.body.magic.question + '\n' + "Answer: " + res.body.magic.answer + '```')
                     .then(() => {
-                        stats.stats.answerPost()
+                        stats.answer.update()
                     })
                     .catch((err) => {
                         oatMeal('8ball answer error ' + err)
@@ -270,7 +268,7 @@ client.on('message', async message => {
                                                     const newChannelSend = message.guild.channels.find(channel => channel.name === newChannelName)
                                                     newChannelSend.send(message.author.username + ' says' + '```' + message.content + '```')
                                                     .then(() => {
-                                                        stats.stats.movedPosts()
+                                                        stats.move.update()
                                                     })
                                                     .catch((err) => {
                                                         oatMeal('moved error ' + err)
@@ -279,7 +277,7 @@ client.on('message', async message => {
                                                     //default to send to general channel
                                                     generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
                                                     .then(() => {
-                                                        stats.stats.movedPosts()
+                                                        stats.move.update()
                                                     })
                                                     .catch((err) => {
                                                         oatMeal('moved error ' + err)
