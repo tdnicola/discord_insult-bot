@@ -15,13 +15,31 @@ client.on('message', async message => {
     //Error Messages
     const errorMessage = () => {
         message.channel.send('Hmmm something went wrong with the result..')
+    };
+
+    //make shift error handling, send myself a message
+    const oatMeal = (message) => {
+        client.fetchUser('254838552960040960').then((user) => {
+        user.send(message);
+        })
+    };
+
+    //return if author is bot
+    if (message.author.bot) return 
+
+
+    //HELP 
+    else if(message.content.startsWith(`${prefix}help`)) {
+        message.channel.send("Throw an insult with !insult @person");
+        message.channel.send("Praise a homie with !praise @person");
+        message.channel.send("Random gif? !gif ");
+        message.channel.send("Search for a random gif? !gif fail");
+        message.channel.send("CowSpeak? !moo");
+        message.channel.send("Magic 8ball to answer your questions? !8ball why do we suck at league?");
     }
-    // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
-        if (message.author.bot) return 
 
 
-
-//Insults
+    //INSULT API
     if(message.content.startsWith(`${prefix}insult`)) {
         var req = unirest("GET", "https://insult.mattbas.org/api/insult");
 
@@ -39,14 +57,20 @@ client.on('message', async message => {
                     message.channel.send(member + ', ' + insult + '.')
                         .then(e => {
                             e.react("🔥");
-                            console.log(stats.stats.statsGet());
-                        });
+                        })
+                        .then(() => {
+                            stats.stats.insultPost()
+                        })
+                        .catch((err) => {
+                            oatMeal('insult error ' + err)
+                        }) 
                 }
             }
         });
     }
 
-//praises
+
+    //PRAISE API
     else if(message.content.startsWith(`${prefix}praise`)) {
         var req = unirest("GET", "https://complimentr.com/api");
         
@@ -64,19 +88,27 @@ client.on('message', async message => {
                     message.channel.send(member + ', ' + praise + '.')
                         .then(e => {
                             e.react("🙏");
-                        });
+                        })
+                        .then(() => {
+                            stats.stats.praisePost()
+                        })
+                        .catch((err) => {
+                            oatMeal('praise error ' + err)
+                        }) 
                 }
             }
         });
     }
 
-//Gifs
-   else if(message.content.startsWith(`${prefix}gif`)) {
+
+    //GIF api
+    else if(message.content.startsWith(`${prefix}gif`)) {
        //Removing emojis that crashed app
         noWeirdEmojis = message.content.replace(/[^\w\s]|_/g, "")
  
         let splitMessage = noWeirdEmojis.split(' ');
 
+        //emoji has search term behind the 1st word
         if (splitMessage.length >= 2) {
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
@@ -92,13 +124,19 @@ client.on('message', async message => {
                 } else if (!totalResponses) {
                     message.channel.send('Weird search homie, no results..');
                 } else {
-                    // console.log(res)
                     var resIndex = Math.floor(Math.random() * (totalResponses));
                     var selectedGif = res.body.data[resIndex];
 
-                    message.channel.send({files: [selectedGif.images.fixed_height.url]});
+                    message.channel.send({files: [selectedGif.images.fixed_height.url]})
+                    .then(() => {
+                        stats.stats.gifPost()
+                    })
+                    .catch((err) => {
+                        oatMeal('gif error ' + err)
+                    }) 
                 }
             });
+        // no search term and results in random gif
         } else {
             var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
             
@@ -110,50 +148,33 @@ client.on('message', async message => {
                     var gif = res.body.data.images.fixed_height.url;
 
                     message.channel.send("I hope this is a good one..");
-                    message.channel.send({files: [gif]});
+                    message.channel.send({files: [gif]})
+                    .then(() => {
+                        stats.stats.gifPost()
+                    })
+                    .catch((err) => {
+                        oatMeal('gif error ' + err)
+                    }) 
                 }
             });
         }
     }
 
-// random mocking
+
+    // RANDOM mocking
     else if(message.content.includes('i like')) {
         if (message.author == client.user) return;
         message.channel.send('I\'m ' + message.author + ' and ' + message.content + ', herp derp...');
     }
 
 
-//help
-    else if(message.content.startsWith(`${prefix}help`)) {
-            message.channel.send("Throw an insult with !insult @person");
-            message.channel.send("Praise a homie with !praise @person");
-            message.channel.send("Random gif? !gif ");
-            message.channel.send("Search for a random gif? !gif fail");
-            message.channel.send("CowSpeak? !moo");
-            message.channel.send("Magic 8ball to answer your questions? !8ball why do we suck at league?");
-    }
-
-//cow speak
+    //COW speak
     else if (message.content.startsWith(`${prefix}moo`)) {
         let splitMessage = message.content.split(' ');
 
         if (splitMessage.length >= 2) {
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
-
-// working around when moospeak isn't formatted by discord.. 
-// Want to keep this format because it looks like garbage but could work out in it's own way....
-            // var endOfMessage = [
-            //         '+.+Dear+lord+make+this+pain+end...',
-            //         '+.+I+hurt+so+much...',
-            //         '+.+Please+stop+this...',
-            //         '+soufojsfojlwdfbfbs....',
-            //         '+.+Why+me...',
-            // ]
-            
-            // var randomCow = Math.floor(Math.random() * (endOfMessage.length));
-            // console.log(randomCow)
-
 
         var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + '&format=text');
 
@@ -162,26 +183,39 @@ client.on('message', async message => {
                 errorMessage()
                 throw new Error(res.error);
             } else {
-                message.channel.send('```' + res.body + '```');
+                message.channel.send('```' + res.body + '```')
+                .then(() => {
+                    stats.stats.cowPost()
+                })
+                .catch((err) => {
+                    oatMeal('cow error ' + err)
+                }) 
             }
         });
         } else {
             message.channel.send("Gotta have words behind it homie.");
         }
     }
+    
 
-//YW message
-    else if(message.content.startsWith(`ty bot`)) {
+    //Someone thanks the bot, YW message
+    else if(message.content.toLowerCase().startsWith(`ty bot`)) {
         message.author.send('You\'re welcome. Don\'t tell anyone I said that.')
+        .then(() => {
+            stats.stats.tyPost()
+        })
+        .catch((err) => {
+            oatMeal('ty error ' + err)
+        }) 
     }
 
-//8Ball
+
+    //8BALL random answer
     else if (message.content.startsWith(`${prefix}8ball`)) {
         let query = message.content.split(' ')
 
         if (query.length >= 2) {
 
-        
             query.shift()
             let answer = query.join(' ')
             var req = unirest('get',"https://8ball.delegator.com/magic/JSON/" + answer)
@@ -192,8 +226,13 @@ client.on('message', async message => {
                     throw new Error(res.error);
                 }
                 else {
-                    message.channel.send('```' + "Question: " + res.body.magic.question + '\n' + "Answer: " + res.body.magic.answer + '```');
-                    console.log(res.body);
+                    message.channel.send('```' + "Question: " + res.body.magic.question + '\n' + "Answer: " + res.body.magic.answer + '```')
+                    .then(() => {
+                        stats.stats.answerPost()
+                    })
+                    .catch((err) => {
+                        oatMeal('8ball answer error ' + err)
+                    })
                 }
             })
         } else {
@@ -202,39 +241,7 @@ client.on('message', async message => {
     }
 
 
-//         let params = encodeURIComponent("Is today going to be a good day?");
-// let uri = "https://8ball.delegator.com/magic/JSON/" + params;
-// fetch(uri)
-//   .then(response => response.json())
-//   .then(json => {
-//     console.log(json);
-//   });
-//     )
-    //workinng with a music bot
-    // else if (message.content.startsWith(`${prefix}play`)) {
-    //     const voiceChannel = message.member.voiceChannel;
-    //     if(!voiceChannel) return message.channel.send('join a voice channel homie');
-
-    //     try {
-    //         var connection = await voiceChannel.join();
-    //     } catch (err) {
-    //          console.log(`can\'t join ${err}`)
-    //     }
-    //     const dispatcher = connection.playStream(ytdl(args[1]))
-    //         .on('end', () => {
-    //             console.log('song ended')
-    //             voiceChannel.leave();
-    //         })
-    //         .on('error', () => {
-    //             console.error(error);
-    //         })
-
-    //         dispatcher.setVolumeLogarithmic(5 / 5);
-
-    // }
-    // const gtfo = client.emojis.find(emoji => emoji.name === "gfto");
-    // var gtfo = message.guild.emojis.find(emoji => emoji.name == 'gtfo');
-    
+    //MOVING messages from one channel to another, default move channel is 'general' if no words behind move
     else if(message.content.startsWith(`${prefix}move`)) {
         if (message.author.bot) return 
         const generalChannel = message.guild.channels.find(channel => channel.name === "general")
@@ -262,10 +269,21 @@ client.on('message', async message => {
                                                     //getting new channel nale
                                                     const newChannelSend = message.guild.channels.find(channel => channel.name === newChannelName)
                                                     newChannelSend.send(message.author.username + ' says' + '```' + message.content + '```')
-
+                                                    .then(() => {
+                                                        stats.stats.movedPosts()
+                                                    })
+                                                    .catch((err) => {
+                                                        oatMeal('moved error ' + err)
+                                                    }) 
                                                 } else {
                                                     //default to send to general channel
                                                     generalChannel.send(message.author.username + ' says' + '```' + message.content + '```')
+                                                    .then(() => {
+                                                        stats.stats.movedPosts()
+                                                    })
+                                                    .catch((err) => {
+                                                        oatMeal('moved error ' + err)
+                                                    }) 
                                                 }
                                         }
                                         message.delete()
@@ -280,10 +298,7 @@ client.on('message', async message => {
 
         const gtfo =  message.reactions.map((emojie) => emojie.name)
 
-        // const emoji = message.guild.emojis.find(emoji => emoji.name === 'gtfo');
-       
         message.delete()
-        // message.reply(message.author.displayAvatarURL);
     }
 });
 

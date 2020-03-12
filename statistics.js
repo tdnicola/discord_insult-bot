@@ -7,67 +7,80 @@ const client = new Client({
     ssl: true,
 });
 
-client.connect()
-
-// client.query('SELECT * FROM statistics', (err, result) => {
-//     console.log(result, err);
-//     client.end();
-//   })
-
 const stats = {
     statsGet: function() {
-
+        client.connect()
+        .then(() => {
             client.query('SELECT * FROM statistics', (err, result) => {
-              console.log(result, err);
-              client.end();
+                client.end();
+                return result + err
             })
+        })
 
         },
     insultPost: function() {
+        client.connect()
+        .then(() => {
+            client.query('UPDATE statistics set insult = insult + 1', (err, result) => {
+                console.log(result, err);
+                client.end();
+              })
 
-        client.query('UPDATE insult FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        })
     },
     praisePost: function() {
+        client.connect()
+        .then(() => {
+            client.query('UPDATE statistics set praise = praise + 1', (err, result) => {
+                client.end();
+              })
 
-        client.query('UPDATE praise FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        })
     },
     gifPost: function() {
-
-        client.query('UPDATE * FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        client.connect()
+        .then(() => {
+            client.query('UPDATE statistics set gif = gif + 1', (err, result) => {
+                client.end();
+              })
+        })
     },
     cowPost: function() {
+        client.connect()
+        .then(() => {
+            client.query('UPDATE statistics set cow = cow + 1', (err, result) => {
+                console.log(result, err);
+                client.end();
+              })
+        })
 
-        client.query('UPDATE cow FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
     },
     tyPost: function() {
-        client.query('UPDATE ty FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        client.connect()
+            .then(() => {
+                client.query('UPDATE statistics set ty = ty + 1', (err, result) => {
+                    console.log(result, err);
+                    client.end();
+                  })
+            })
     },
     answerPost: function() {
-        client.query('UPDATE answer FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        client.connect()
+        .then(() => {
+            client.query('UPDATE statistics set answer = answer + 1', (err, result) => {
+                client.end();
+              })
+
+        })
     },
     movedPosts: function() {
-        client.query('UPDATE move FROM statistics', (err, result) => {
-            console.log(result, err);
-            client.end();
-          })
+        client.connect()
+        .then((
+            client.query('UPDATE statistics set move = move + 1', (err, result) => {
+                console.log(result, err);
+                client.end();
+              })
+        ))
     },
     
 }
