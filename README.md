@@ -10,7 +10,7 @@ ___
 
   <dd>5 different API's (insult, praise, gif, cowspeak, 8ball)</dd>
   <dd>PostgreSQL queries to update and get statistics of bot</dd>
-  <dd>Learned/implemented about polymorphism on statistics.js</dd>
+  <dd>Learned/implemented about object oriented programming and polymorphism on statistics.js</dd>
 </dl>
 
 ```

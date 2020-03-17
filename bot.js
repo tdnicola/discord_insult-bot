@@ -9,6 +9,13 @@ client.once('ready', () => {
     console.log('sup playa');
 });
 
+//activity
+client.on('ready', () => {
+    client.user.setActivity(' !help for info', { type: 'WATCHING' });
+});
+
+client.login(token);
+
 client.on('message', async message => {
     //Error Messages
     const errorMessage = () => {
@@ -56,8 +63,6 @@ client.on('message', async message => {
                     message.channel.send(member + ', ' + insult + '.')
                         .then(e => {
                             e.react("🔥");
-                        })
-                        .then(() => {
                             stats.insult.update()
                         })
                         .catch((err) => {
@@ -72,29 +77,28 @@ client.on('message', async message => {
     //PRAISE API
     else if(message.content.startsWith(`${prefix}praise`)) {
         var req = unirest("GET", "https://complimentr.com/api");
-        
-        req.end((res) => {
-            if (res.error) {
-                errorMessage();
-                throw new Error(res.error);
-            } else {
-                var praise = String(res.body.compliment);
-                let member = message.mentions.members.first();
+        let member = message.mentions.members.first();
 
-                if (member == '' || member == null) {
-                    message.reply('Dude you had to include two things and you screwed that up...');
-                } else {
-                    message.channel.send(member + ', ' + praise + '.')
-                        .then(e => {
-                            e.react("🙏");
-                        })
-                        .then(() => {
-                            stats.praise.update()
-                        })
-                        .catch((err) => {
-                            oatMeal('praise error ' + err)
-                        }) 
-                }
+        //no mention no api call
+        if (member == '' || member == null) {
+            return message.reply('Dude you had to include two things and you screwed that up...');
+        }
+
+        req.end((res) => {
+            var praise = String(res.body.compliment);
+            try {
+                message.channel.send(member + ', ' + praise + '.')
+                .then(e => {
+                    e.react("🙏");
+                    stats.praise.update()
+                })
+                .catch((err) => {
+                    oatMeal('praise stat error ' + err)
+                }) 
+            }
+            catch(err){
+                oatMeal('praise api error ' + err)
+                errorMessage()
             }
         });
     }
@@ -116,46 +120,59 @@ client.on('message', async message => {
             
             req.end((res) => {
                 var totalResponses = res.body.data.length;
-
-                if (res.error) {
-                    errorMessage();
+                var resIndex = Math.floor(Math.random() * (totalResponses));
+                var selectedGif = res.body.data[resIndex];
+                
+                if(res.error){
+                    errorMessage()
                     throw new Error(res.error);
-                } else if (!totalResponses) {
-                    message.channel.send('Weird search homie, no results..');
-                } else {
-                    var resIndex = Math.floor(Math.random() * (totalResponses));
-                    var selectedGif = res.body.data[resIndex];
+                }
 
+                if (!totalResponses) {
+                    return message.channel.send('Weird search homie, no results..');
+                } 
+
+                try {
                     message.channel.send({files: [selectedGif.images.fixed_height.url]})
                     .then(() => {
                         stats.gif.update()
                     })
                     .catch((err) => {
-                        oatMeal('gif error ' + err)
-                    }) 
+                        oatMeal('gif update error ' + err)
+                    })
                 }
+                catch(err) {
+                    errorMessage();
+                    oatMeal('gif post error ' + err)
+                } 
             });
+
         // no search term and results in random gif
         } else {
             var req = unirest("GET", "http://api.giphy.com/v1/gifs/random?api_key=" + gifToken);
             
             req.end((res) => {
-                if (res.error) {
-                    errorMessage();
+                if(res.error){
+                    errorMessage()
                     throw new Error(res.error);
-                } else {
-                    var gif = res.body.data.images.fixed_height.url;
+                }
 
-                    message.channel.send("I hope this is a good one..");
+                var gif = res.body.data.images.fixed_height.url;
+                message.channel.send("I hope this is a good one..");
+                try {
                     message.channel.send({files: [gif]})
                     .then(() => {
                         stats.gif.update()
                     })
                     .catch((err) => {
-                        oatMeal('gif error ' + err)
-                    }) 
+                        oatMeal('gif update error ' + err)
+                    })
                 }
-            });
+                catch(err) {
+                    oatMeal('gif post error ' + err)
+                    errorMessage();
+                } 
+            })
         }
     }
 
@@ -175,22 +192,26 @@ client.on('message', async message => {
             splitMessage.shift();
             splitMessage = splitMessage.join("+");
 
-        var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + '&format=text');
+            var req = unirest('GET', "http://cowsay.morecode.org/say?message=" + splitMessage + '&format=text');
 
-        req.end((res) => {
-            if (res.error) {
-                errorMessage()
-                throw new Error(res.error);
-            } else {
-                message.channel.send('```' + res.body + '```')
-                .then(() => {
-                    stats.cow.update()
-                })
-                .catch((err) => {
-                    oatMeal('cow error ' + err)
-                }) 
-            }
-        });
+            req.end((res) => {
+                if (res.error) {
+                    errorMessage()
+                    throw new Error(res.error);
+                } 
+                try {
+                    message.channel.send('```' + res.body + '```')
+                    .then(() => {
+                        stats.cow.update()
+                    })
+                    .catch((err) => {
+                        oatMeal('cow error ' + err)
+                    }) 
+                }
+                catch(error) {
+                    oatMeal('message send error ' + error)
+                }
+            });
         } else {
             message.channel.send("Gotta have words behind it homie.");
         }
@@ -220,19 +241,19 @@ client.on('message', async message => {
             var req = unirest('get',"https://8ball.delegator.com/magic/JSON/" + answer)
 
             req.end((res) => {
-                if (res.error) {
-                    errorMessage()
-                    throw new Error(res.error);
-                }
-                else {
+                try {
                     message.channel.send('```' + "Question: " + res.body.magic.question + '\n' + "Answer: " + res.body.magic.answer + '```')
                     .then(() => {
                         stats.answer.update()
                     })
                     .catch((err) => {
-                        oatMeal('8ball answer error ' + err)
+                        oatMeal('8ball stats error ' + err)
                     })
                 }
+                catch(err) {
+                    oatMeal('8ball error ' + err)
+                    errorMessage();
+                } 
             })
         } else {
             message.channel.send("Gotta have words behind it homie.");
@@ -256,7 +277,8 @@ client.on('message', async message => {
                     .then(messages => messages.map(message => {
                                 message.reactions.map(single => {
                                         // custom emoji id
-                                        if (single._emoji.id == '685883353773244435' || single._emoji.id == '494716469070790657') {
+
+                                        if (single._emoji.id == '685883353773244435' || single._emoji.id == '685995515795734559') {
 
                                                 // if query length is greater than than 1 then split names to get channel name
                                                 if (query.length >= 2) {
@@ -284,7 +306,10 @@ client.on('message', async message => {
                                                         oatMeal('moved error ' + err)
                                                     }) 
                                                 }
+                                        } else {
+                                            oatMeal('emoji find error' )
                                         }
+                                        //delete emojie message
                                         message.delete()
                                 });
                     }))
@@ -295,15 +320,8 @@ client.on('message', async message => {
                 message.author.send('noob of the noobs')
             }
 
-        const gtfo =  message.reactions.map((emojie) => emojie.name)
-
+        //delete !move message
         message.delete()
     }
 });
 
-
-client.on('ready', () => {
-    client.user.setActivity(' !help for info', { type: 'WATCHING' });
-});
-
-client.login(token);
