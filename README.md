@@ -47,6 +47,12 @@ Invite?
 
 https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permissions=0&scope=bot
 
+<!-- Want to clone and run yourself?
+git clone https://github.com/tdnicola/discord_insult-bot
+npm i
+update config files with tokens
+comment out stat api calls
+node bot.js -->
 
 ###### _!move requires some configuring to work and most likely won't work on the live version because right now it is specific to each server (emoji id)._
 

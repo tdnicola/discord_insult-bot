@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { prefix, token, rapidAPIHost, rapidAPIKey, gifToken, url } = require('./config.json');
+const { prefix, token, gifToken } = require('./config.json');
 const client = new Discord.Client();
 const unirest = require("unirest");
 
@@ -48,27 +48,32 @@ client.on('message', async message => {
     //INSULT API
     if(message.content.startsWith(`${prefix}insult`)) {
         var req = unirest("GET", "https://insult.mattbas.org/api/insult");
-
+        
+        //no mention no api call
+        let member = message.mentions.members.first();
+        if (member == '' || member == null) {
+            return message.reply('Dude you had to include two things and you screwed that up...');
+        }
+        
         req.end((res) => {
             if (res.error) {
                 errorMessage();
                 throw new Error(res.error);
-            } else {
+            } 
+            try {
                 var insult = res.raw_body.toLowerCase();
-                let member = message.mentions.members.first();
-
-                if (member == '' || member == null) {
-                    message.reply('Dude you had to include two things and you screwed that up...');
-                } else {
-                    message.channel.send(member + ', ' + insult + '.')
-                        .then(e => {
-                            e.react("🔥");
-                            stats.insult.update()
-                        })
-                        .catch((err) => {
-                            oatMeal('insult error ' + err)
-                        }) 
-                }
+                message.channel.send(member + ', ' + insult + '.')
+                .then(e => {
+                    e.react("🔥");
+                    stats.insult.update()
+                })
+                .catch((err) => {
+                    oatMeal('insult error ' + err)
+                }) 
+            }
+            catch(err){
+                oatMeal('insult api error ' + err)
+                errorMessage()
             }
         });
     }

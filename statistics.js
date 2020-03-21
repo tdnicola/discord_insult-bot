@@ -7,8 +7,6 @@ const pool = new Pool({
     ssl: true,
 });
 
-
-
 const stats = {
     queryString: 'SELECT * FROM statistics',
     update: 
