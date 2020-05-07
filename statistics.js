@@ -9,13 +9,13 @@ const pool = new Pool({
 
 const stats = {
 	queryString: 'SELECT * FROM statistics',
-	update: function () {
+	update: function (callback) {
 		pool
 			.connect()
 			.then(() => {
 				pool.query(this.queryString, (err, result) => {
 					result.rows.forEach((element) => {
-						console.log(element);
+						return callback(element);
 					});
 				});
 			})

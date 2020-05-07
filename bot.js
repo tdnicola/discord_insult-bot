@@ -44,6 +44,7 @@ client.on('message', async (message) => {
 		message.channel.send(
 			"If you're special, emojie gtfo on a message and !move"
 		);
+		message.channel.send('Stats? !stats');
 	}
 
 	//INSULT API
@@ -331,11 +332,11 @@ client.on('message', async (message) => {
 									);
 									newChannelSend
 										.send(
-											message.author.username +
-												' says' +
+											'```' +
+												message.author.username +
+												' says: ' +
 												'```' +
-												message.content +
-												'```'
+												message.content
 										)
 										.then(() => {
 											stats.move.update();
@@ -378,8 +379,38 @@ client.on('message', async (message) => {
 		//delete !move message
 		message.delete();
 	} else if (message.content.startsWith(`${prefix}stats`)) {
-		async function statNumbers() {
-			await stats.stats.update();
-		}
+		statsInfo = '';
+		stats.stats.update(function (result) {
+			statsInfo = result;
+			try {
+				message.channel.send(
+					'```' +
+						'Insults: ' +
+						statsInfo.insult +
+						'\n' +
+						'Praises: ' +
+						statsInfo.praise +
+						'\n' +
+						'Gifs: ' +
+						statsInfo.gif +
+						'\n' +
+						'CowSpeaks: ' +
+						statsInfo.cow +
+						'\n' +
+						'Thanks given: ' +
+						statsInfo.ty +
+						'\n' +
+						'8Balls: ' +
+						statsInfo.answer +
+						'\n' +
+						'Incorrect channels (noobs): ' +
+						statsInfo.move +
+						'```'
+				);
+			} catch (err) {
+				console.log(err);
+				oatMeal('stats err: ' + err);
+			}
+		});
 	}
 });
