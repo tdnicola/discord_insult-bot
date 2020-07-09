@@ -326,16 +326,16 @@ client.on('message', async (message) => {
 									//servers names do not have any spaces, if spaces are received, default to dashes
 									newChannelName = query.join('-');
 
-									//getting new channel nale
+									//getting new channel name
 									const newChannelSend = message.guild.channels.find(
 										(channel) => channel.name === newChannelName
 									);
 									newChannelSend
 										.send(
-											'```' +
-												message.author.username +
+											message.author.username +
+												' on channel ' +
+												wrongChannelName +
 												' says: ' +
-												'```' +
 												message.content
 										)
 										.then(() => {
@@ -349,10 +349,10 @@ client.on('message', async (message) => {
 									generalChannel
 										.send(
 											message.author.username +
-												' says' +
-												'```' +
-												message.content +
-												'```'
+												' on channel ' +
+												wrongChannelName +
+												' says: ' +
+												message.content
 										)
 										.then(() => {
 											stats.move.update();
