@@ -59,6 +59,12 @@ client.on('message', async (message) => {
 			);
 		}
 
+		//insults themself
+		if (member.user.username === message.author.username) {
+			message.reply(
+				'Dang hating on themself.. I mean I guess I can..'
+			);
+		}
 		req.end((res) => {
 			if (res.error) {
 				errorMessage();
@@ -91,6 +97,12 @@ client.on('message', async (message) => {
 		if (member == '' || member == null) {
 			return message.reply(
 				'Dude you had to include two things and you screwed that up...'
+			);
+		}
+
+		if (member.user.username === message.author.username) {
+			return message.reply(
+				'We get it, you like yourself..'
 			);
 		}
 
