@@ -9,7 +9,7 @@ client.once('ready', () => {
 	console.log('sup playa');
 });
 
-//activity
+// activity
 client.on('ready', () => {
 	client.user.setActivity(' !help for info', { type: 'WATCHING' });
 });
@@ -19,7 +19,7 @@ client.login(token);
 client.on('message', async (message) => {
 	//Error Messages
 	const errorMessage = () => {
-		message.channel.send('Hmmm something went wrong with the result..');
+		message.channel.send('Hmmm something went wrong with the result.. Try again? Error logged.');
 	};
 
 	//make shift error handling, send myself a message
