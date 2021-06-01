@@ -33,18 +33,7 @@ client.on('message', async (message) => {
 	if (message.author.bot) return;
 	//HELP
 	else if (message.content.startsWith(`${prefix}help`)) {
-		message.channel.send('Throw an insult with !insult @person');
-		message.channel.send('Praise a homie with !praise @person');
-		message.channel.send('Random gif? !gif ');
-		message.channel.send('Search for a random gif? !gif fail');
-		message.channel.send('CowSpeak? !moo');
-		message.channel.send(
-			'Magic 8ball to answer your questions? !8ball why do we suck at league?'
-		);
-		message.channel.send(
-			"If you're special, emojie gtfo on a message and !move"
-		);
-		message.channel.send('Stats? !stats');
+		message.channel.send('Throw an insult with !insult @person \nPraise a homie with !praise @person \nRandom gif? !gif \nSearch for a random gif? !gif fail \nCowSpeak? !moo \nMagic 8ball to answer your questions? !8ball why do we suck at league? \nIf you\'re special, emojie gtfo on a message and !move \nStats? !stats')
 	}
 
 	//INSULT API
@@ -73,7 +62,7 @@ client.on('message', async (message) => {
 			try {
 				var insult = res.raw_body.toLowerCase();
 				message.channel
-					.send(member + ', ' + insult + '.')
+					.send('<@'+ member.id +'>' + ', ' + insult + '.')
 					.then((e) => {
 						e.react('🔥');
 						stats.insult.update();
@@ -106,11 +95,12 @@ client.on('message', async (message) => {
 			);
 		}
 
+		console.log(member.user)
 		req.end((res) => {
 			var praise = String(res.body.compliment);
 			try {
 				message.channel
-					.send(member + ', ' + praise + '.')
+					.send('<@'+ member.id +'>' + ', ' + praise + '.')
 					.then((e) => {
 						e.react('🙏');
 						stats.praise.update();
