@@ -24,9 +24,9 @@ client.login(token);
 
 client.on("message", async (message) => {
     //Error Messages
-    const errorMessage = () => {
+    const errorMessage = (error) => {
         message.channel.send(
-            "Hmmm something went wrong with the result.. Try again? Error logged."
+            `Hmmm something went wrong with the result.. Try again? Error logged. \n ${error}`
         );
     };
 
@@ -75,8 +75,8 @@ client.on("message", async (message) => {
         }
         req.end((res) => {
             if (res.error) {
-                errorMessage();
-                throw new Error(res.error);
+                errorMessage(res.error);
+                oatMeal("insult error URL " + res.error);
             }
             try {
                 var insult = res.raw_body.toLowerCase();
@@ -159,8 +159,8 @@ client.on("message", async (message) => {
                 var selectedGif = res.body.data[resIndex];
 
                 if (res.error) {
-                    errorMessage();
-                    throw new Error(res.error);
+                    errorMessage(res.error);
+                    oatMeal("insult error URL " + res.error);
                 }
 
                 if (!totalResponses) {
@@ -193,8 +193,8 @@ client.on("message", async (message) => {
 
             req.end((res) => {
                 if (res.error) {
-                    errorMessage();
-                    throw new Error(res.error);
+                    errorMessage(res.error);
+                    oatMeal("insult error URL " + res.error);
                 }
 
                 var gif = res.body.data.images.fixed_height.url;
@@ -245,8 +245,8 @@ client.on("message", async (message) => {
 
             req.end((res) => {
                 if (res.error) {
-                    errorMessage();
-                    throw new Error(res.error);
+                    errorMessage(res.error);
+                    oatMeal("insult error URL " + res.error);
                 }
                 try {
                     message.channel
