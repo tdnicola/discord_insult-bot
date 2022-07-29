@@ -27,7 +27,9 @@
 
 !8ball question
 
-!move to move a message (configure info below)
+!timer 5 mins
+
+!move to move a message (configure info below)--Currently disabled
 
 !help for info in chat on the commands
 
@@ -63,18 +65,18 @@ https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permiss
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
 
-#### Current Stats 7/4/22:
+#### Current Stats 7/28/22:
 
 ###### Currently on 36 servers
 
 | Command                     | Counts |
 | --------------------------- | ------ |
-| Insults:                    | 518    |
-| Praises:                    | 372    |
-| Gifs:                       | 629    |
-| CowSpeaks:                  | 96     |
+| Insults:                    | 568    |
+| Praises:                    | 375    |
+| Gifs:                       | 637    |
+| CowSpeaks:                  | 98     |
 | Thanks given:               | 6      |
-| 8Balls:                     | 98     |
+| 8Balls:                     | 103    |
 | Incorrect channels (noobs): | 9      |
 
 ###### _!move requires some configuring to work and most likely won't work on most servers version. Right now it is specific to each server (emoji id). Currently disabled on live version._

@@ -7,7 +7,6 @@ const client = new Client({
 const unirest = require("unirest");
 
 const stats = require("./statistics");
-console.log();
 // token = process.env.token || token
 // gifToken = process.env.gifToken || gifToken
 
@@ -42,7 +41,7 @@ client.on("message", async (message) => {
     //HELP
     else if (message.content.startsWith(`${prefix}help`)) {
         message.channel.send(
-            `Throw an insult with !insult @person \nPraise a homie with !praise @person \nRandom gif? !gif \nSearch for a random gif? !gif fail \nCowSpeak? !moo \nMagic 8ball to answer your questions? !8ball why do we suck at league? \nCurrently running on ${client.guilds.cache.size} servers`
+            `Throw an insult with !insult @person \nPraise a homie with !praise @person \nRandom gif? !gif \nSearch for a random gif? !gif fail \nCowSpeak? !moo \nMagic 8ball to answer your questions? !8ball why do we suck at league? \n!timer 5 mins \nCurrently running on ${client.guilds.cache.size} servers`
         );
         // \nStats? !stats --STATS NOT DISPLAYING CORRECTLY -NOT WORKING
         //  \nIf you\'re special, emojie gtfo on a message and !move -- CAUSING CRASHING. TEMP REMOVED
@@ -130,6 +129,32 @@ client.on("message", async (message) => {
                 errorMessage();
             }
         });
+    }
+    //Timer
+    else if (message.content.startsWith(`${prefix}timer`)) {
+        let numberFound = undefined;
+        let splitMessage = message.content.split(" ");
+
+        splitMessage.shift();
+
+        splitMessage.some((number) => {
+            if (number >= 1 && number <= 20) {
+                numberFound = number;
+                return true;
+            }
+        });
+
+        if (!numberFound) {
+            message.channel.send(
+                "Please pick a timer between 1 and 20 minutes."
+            );
+        } else {
+            message.channel.send(`${numberFound} min timer started`);
+            let timerTimeout = numberFound * 60000;
+            setTimeout(() => {
+                message.reply(`${numberFound} minute timer is up.`);
+            }, timerTimeout);
+        }
     }
 
     //GIF api
