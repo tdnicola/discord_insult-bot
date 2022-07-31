@@ -1,0 +1,9 @@
+{
+    "token": "DiscordToken",
+    "rapidAPIHost": "rapidAPIHosturl",
+    "rapidAPIKey": "rapidAPIHostKey",
+    "prefix": "!",
+    "gifToken": "giphyAPIToken",   
+    "connectionString": "heroku Connection string",
+    "password": "herokuConnection Password"
+}
