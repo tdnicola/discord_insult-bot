@@ -1,4 +1,5 @@
 const unirest = require("unirest");
+const stats = require("../.././statistics");
 
 module.exports = {
     name: "8ball",
