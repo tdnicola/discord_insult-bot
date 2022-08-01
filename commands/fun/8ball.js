@@ -2,7 +2,8 @@ const unirest = require("unirest");
 
 module.exports = {
     name: "8ball",
-    description: "The magic 8ball that gives you all the answers",
+    description:
+        "The magic 8ball that gives you all the answers.. Well sometimes.",
     args: true,
     usage: "<question> !8ball Why do i suck at league?",
     execute(message, args) {

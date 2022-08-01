@@ -16,9 +16,7 @@ module.exports = {
         }
         // insults themself
         if (member.user.username === message.author.username) {
-            return message.reply(
-                "Dang hating on themself.. I mean I guess I can.."
-            );
+            message.reply("Dang hating on themself.. I mean I guess I can..");
         }
         req.end((res) => {
             if (res.error) {

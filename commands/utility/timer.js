@@ -1,7 +1,7 @@
 module.exports = {
     name: "timer",
-    description: "time out!",
-    usage: "<1-20> !timer 5 mins for a 5 min timer",
+    description: "The countdown has started.",
+    usage: "<1-20> !timer 5 mins for a 5 min timer.",
     args: true,
     execute(message, args) {
         let numberFound = undefined;

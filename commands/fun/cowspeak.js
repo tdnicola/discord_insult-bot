@@ -18,7 +18,7 @@ module.exports = {
                 }
                 try {
                     return message.channel
-                        .send("```" + res.body + "```")
+                        .send(`\`\`\`${res.body} \`\`\``)
                         .then(() => {
                             stats.cow.update();
                         })

@@ -2,7 +2,11 @@
 
 ## Throw a random insult/praise or just spice it up with a random/searched gif.
 
-#### This little project started as something to insult friends with a random api. It since has become a fun project that quickly grew into much more. I use it to learn and try new concepts while adding new features to the bot.
+## Invite?
+
+https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permissions=0&scope=bot
+
+#### This little project started as something to insult friends with a random api. It since has become a fun project. I use it to learn and try new concepts while adding new features to the bot.
 
 ---
 
@@ -12,6 +16,7 @@
   <dd>6 different API's (insult, praise, gif, cowspeak, 8ball, Postgres)</dd>
   <dd>PostgreSQL queries to update and get statistics of bot</dd>
   <dd>Learned/implemented about object oriented programming and polymorphism on statistics.js</dd>
+  <dd>Learned/implemented a command handler for ease of adding commands and just general code viewing</dd>
 </dl>
 
 ```
@@ -29,9 +34,9 @@
 
 !timer 5 mins
 
-!move to move a message (configure info below)--Currently disabled
+!comment hey can we add this feature?
 
-!help for info in chat on the commands
+!help for a list of commands
 
 
 ```
@@ -45,44 +50,37 @@ API links:
 -   [CowSay](http://cowsay.morecode.org/)
 -   [8Ball](https://8ball.delegator.com/)
 
-## Invite?
+## Requirements
 
-https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permissions=0&scope=bot
+1. [Need Node.js and Discord.js installed](https://discordjs.guide/preparations/#installing-node-js)
+2. Create discord account for your bot and add it to your server. Add token to config.json
 
 ## Installation
 
 1. git clone https://github.com/tdnicola/discord_insult-bot
 2. npm i
-3. create config.json file with tokens:
+3. update config.json file with tokens:
 
 -   Token: discord bot token
--   RapidAPIhost: token
--   RapidAPIKey: key
 -   Prefix: currently !
 -   Giftoken: giphy token
--   ConnectionString: heroku postgres string
+-   ConnectionString: heroku postgres string (if wanted to your own tracking. Would have to set up own server)
 
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
 
-#### Current Stats 7/28/22:
+#### Current Stats 7/31/22:
 
-###### Currently on 36 servers
+###### Currently on 38 servers
 
 | Command                     | Counts |
 | --------------------------- | ------ |
-| Insults:                    | 568    |
-| Praises:                    | 375    |
-| Gifs:                       | 637    |
-| CowSpeaks:                  | 98     |
+| Insults:                    | 581    |
+| Praises:                    | 379    |
+| Gifs:                       | 638    |
+| CowSpeaks:                  | 99     |
 | Thanks given:               | 6      |
 | 8Balls:                     | 103    |
 | Incorrect channels (noobs): | 9      |
-
-###### _!move requires some configuring to work and most likely won't work on most servers version. Right now it is specific to each server (emoji id). Currently disabled on live version._
-
-###### _When called with !move it will search the last 20 messages in the channel it is called for an emoji (that you specify) on the message you would like to move. If no terms come after !move it defaults to move item to 'general' chat. if a term is after !move it searches for that channel to move to. !move chat will search the last 20 messages for the emoji id, if found it will move the message to the 'chat' channel._
-
-###### _If you wanted to clone and run yourself to work with it you would need to pull the emoji id you would like it to search for to move the message. Feel free to email me if you have questions or are trying to do something yourself similiar, this one took me a little bit._
 
 deployed on heroku

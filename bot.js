@@ -32,29 +32,29 @@ client.on("message", (message) => {
 
     const command = client.commands.get(commandName);
 
-    const oatMealError = (message) => {
+    const sendToOatmeal = (chatMessage, message) => {
         client.users.fetch("254838552960040960", false).then((user) => {
-            user.send(message);
+            user.send(
+                `${chatMessage} 
+            Username: ${message.author.username} 
+            discriminator: ${message.author.discriminator} 
+            guild: ${message.guild.name}
+            guildID: ${message.guild.id}
+            `
+            );
         });
     };
-    if (command.args && !args.length) {
-        return message.channel.send(
-            `You didn't provide any arguments, ${message.author}!`
-        );
-    }
 
+    //Sending the bot reply
     try {
-        command.execute(message, args);
+        command.execute(message, args, client, sendToOatmeal);
     } catch (error) {
         message.reply(
             `Hmmm something went wrong with the result.. Try again? Error logged. \n ${error}`
         );
-        oatMealError(
-            `error: ${error} 
-            Username: ${message.author.username} 
-            discriminator: ${message.author.discriminator} 
-            guild: ${message.guild.name}
-            guildID: ${message.guild.id}`
+        sendToOatmeal(error, message);
+        message.author.send(
+            `If you're tweaking the code and have questions. Feel free to add me as a friend and I can help troubleshoot. Professor Oatmeal#2612`
         );
     }
 });
