@@ -1,9 +1,10 @@
 const unirest = require("unirest");
-const { connectionString } = require("./config.json");
+const { DATABASE_URL } = require("./config.js");
+
 const { Client, Pool } = require("pg");
 
 const pool = new Pool({
-    connectionString,
+    connectionString: DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     },

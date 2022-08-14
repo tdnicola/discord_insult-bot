@@ -1,4 +1,4 @@
-const { prefix } = require("../.././config.json");
+const { PREFIX } = require("../.././config.js");
 
 module.exports = {
     name: "help",
@@ -16,7 +16,7 @@ module.exports = {
             );
             data.push(commands.map((command) => command.name).join(", "));
             data.push(
-                `\nYou can send \`${prefix}help <command>\` to get info on a specific command.`
+                `\nYou can send \`${PREFIX}help <command>\` to get info on a specific command.`
             );
 
             return message.reply(data, { split: true });
@@ -36,7 +36,7 @@ module.exports = {
         if (command.description)
             data.push(`**Description:** ${command.description}`);
         if (command.usage)
-            data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+            data.push(`**Usage:** ${PREFIX}${command.name} ${command.usage}`);
 
         data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 

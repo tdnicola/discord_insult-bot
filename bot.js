@@ -1,4 +1,4 @@
-const { prefix, token } = require("./config.json");
+const { PREFIX, TOKEN, DATABASE_URL } = require("./config.js");
 
 const fs = require("fs");
 const Discord = require("discord.js");
@@ -59,7 +59,7 @@ client.on("message", (message) => {
     }
 });
 
-client.login(token);
+client.login(TOKEN);
 
 client.on("ready", () => {
     client.user.setActivity(" !help for info", { type: "WATCHING" });

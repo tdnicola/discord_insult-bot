@@ -1,6 +1,6 @@
-const { gifToken } = require("../.././config.json");
-var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${gifToken}&q=`;
-var randomGifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${gifToken}`;
+const { GIF_TOKEN } = require("../.././config.js");
+var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=`;
+var randomGifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
 const stats = require("../.././statistics");
 const unirest = require("unirest");
 

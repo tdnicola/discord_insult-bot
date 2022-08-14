@@ -34,6 +34,10 @@ https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permiss
 
 !timer 5 mins
 
+!choose this or that?
+
+!poll Which number is better? +1 +2
+
 !comment hey can we add this feature?
 
 !help for a list of commands
@@ -59,12 +63,12 @@ API links:
 
 1. git clone https://github.com/tdnicola/discord_insult-bot
 2. npm i
-3. update config.json file with tokens:
+3. create .env file based on env.sample file
 
--   Token: discord bot token
--   Prefix: currently !
--   Giftoken: giphy token
--   ConnectionString: heroku postgres string (if wanted to your own tracking. Would have to set up own server)
+-   TOKEN=discord bot token
+-   PREFIX=currently !
+-   GIF_TOKEN=giphy token
+-   DATABASE_URL=heroku postgres string (if wanted to your own tracking. Would have to set up own server)
 
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
@@ -75,10 +79,10 @@ API links:
 
 | Command                     | Counts |
 | --------------------------- | ------ |
-| Insults:                    | 581    |
-| Praises:                    | 379    |
-| Gifs:                       | 638    |
-| CowSpeaks:                  | 99     |
+| Insults:                    | 612    |
+| Praises:                    | 380    |
+| Gifs:                       | 646    |
+| CowSpeaks:                  | 100    |
 | Thanks given:               | 6      |
 | 8Balls:                     | 103    |
 | Incorrect channels (noobs): | 9      |

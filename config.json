@@ -1,7 +1,0 @@
-{
-    "token": "DiscordToken",
-    "prefix": "!",
-    "gifToken": "giphyAPIToken",   
-    "connectionString": "heroku Connection string",
-    "password": "herokuConnection Password"
-}
