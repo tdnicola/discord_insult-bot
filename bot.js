@@ -1,5 +1,4 @@
-const { PREFIX, TOKEN, DATABASE_URL } = require("./config.js");
-
+const { PREFIX, TOKEN } = require("./config.js");
 const fs = require("fs");
 const Discord = require("discord.js");
 
@@ -23,9 +22,9 @@ client.once("ready", () => {
 });
 
 client.on("message", (message) => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const args = message.content.slice(PREFIX.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
     if (!client.commands.has(commandName)) return;

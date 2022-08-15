@@ -5,6 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "discord.js": "^12.5.3",
+    "dotenv": "^16.0.1",
     "opusscript": "^0.0.7",
     "pg": "^8.7.3",
     "split2": "^3.2.2",

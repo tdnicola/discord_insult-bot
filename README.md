@@ -73,18 +73,18 @@ API links:
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
 
-#### Current Stats 7/31/22:
+#### Current Stats 8/14/22:
 
-###### Currently on 38 servers
+###### Currently on 43 servers
 
 | Command                     | Counts |
 | --------------------------- | ------ |
-| Insults:                    | 612    |
-| Praises:                    | 380    |
-| Gifs:                       | 646    |
-| CowSpeaks:                  | 100    |
+| Insults:                    | 624    |
+| Praises:                    | 383    |
+| Gifs:                       | 648    |
+| CowSpeaks:                  | 102    |
 | Thanks given:               | 6      |
-| 8Balls:                     | 103    |
+| 8Balls:                     | 105    |
 | Incorrect channels (noobs): | 9      |
 
 deployed on heroku

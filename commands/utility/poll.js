@@ -14,8 +14,8 @@ module.exports = {
         );
 
         pollOptions = message.content.split(separator);
-        console.log(pollOptions);
         pollOptions.shift();
+        console.log(pollOptions);
 
         if (pollOptions.length > 0) {
             const questionIndex = questionArgs.indexOf(findQuestionSeperator);
@@ -51,11 +51,11 @@ module.exports = {
                 "🇿",
             ];
 
-            // if (pollOptionsCount.length > alphabet.length) {
-            //     return message.channel.send(
-            //         "Too many poll options. Please use less than 26.. My goodness what kind of poll is this?"
-            //     );
-            // }
+            if (pollOptions.length > alphabet.length) {
+                return message.channel.send(
+                    "Too many poll options. Please use less than 26.. My goodness what kind of poll is this?"
+                );
+            }
             const alphabetIconArray = [];
 
             const exampleEmbed = new Discord.MessageEmbed()
@@ -80,7 +80,7 @@ module.exports = {
             });
         } else {
             return message.channel.send(
-                "What kind of poll does not have a question?"
+                "No question? No poll options? Pssh poll noob over here."
             );
         }
     },
