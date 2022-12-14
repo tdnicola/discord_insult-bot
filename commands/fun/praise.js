@@ -1,4 +1,4 @@
-const stats = require("../.././statistics");
+// const stats = require("../.././statistics");
 const unirest = require("unirest");
 const req = unirest("GET", "https://complimentr.com/api");
 
@@ -28,7 +28,7 @@ module.exports = {
                     .send(`<@${member.id}>, ${praise}.`)
                     .then((e) => {
                         e.react("🙏");
-                        stats.praise.update();
+                        // stats.praise.update();
                     })
                     .catch((err) => {
                         return `Praise error: ${err}`;

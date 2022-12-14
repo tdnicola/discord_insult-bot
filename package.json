@@ -4,11 +4,12 @@
   "description": "",
   "main": "bot.js",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^14.7.1",
     "dotenv": "^16.0.1",
     "opusscript": "^0.0.7",
     "pg": "^8.7.3",
     "split2": "^3.2.2",
+    "undici": "^5.14.0",
     "unirest": "^0.6.0",
     "ytdl-core": "^1.0.9"
   },

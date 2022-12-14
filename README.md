@@ -4,16 +4,18 @@
 
 ## Invite?
 
-https://discordapp.com/api/oauth2/authorize?client_id=613364681750609943&permissions=0&scope=bot
+https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permissions=8&scope=bot
 
 #### This little project started as something to insult friends with a random api. It since has become a fun project. I use it to learn and try new concepts while adding new features to the bot.
+
+#### Currently updating from v12 to v14 slash commands. WIP -12/13/22
 
 ---
 
 <dl>
   <dt>Some highlights and things I've learned from this bot:</dt>
 
-  <dd>6 different API's (insult, praise, gif, cowspeak, 8ball, Postgres)</dd>
+  <dd>6 different API's (insult, praise, gif, cowspeak)</dd>
   <dd>PostgreSQL queries to update and get statistics of bot</dd>
   <dd>Learned/implemented about object oriented programming and polymorphism on statistics.js</dd>
   <dd>Learned/implemented a command handler for ease of adding commands and just general code viewing</dd>
@@ -52,7 +54,7 @@ API links:
 -   [Praises](https://complimentr.com/api)
 -   [Gifs](https://api.giphy.com/v1/gifs/random)
 -   [CowSay](http://cowsay.morecode.org/)
--   [8Ball](https://8ball.delegator.com/)
+-   ~~[8Ball](https://8ball.delegator.com/)~~ RIP from Heroku
 
 ## Requirements
 
@@ -73,18 +75,18 @@ API links:
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
 
-#### Current Stats 8/14/22:
+#### FINAL HEROKU POSTGRES STATS 12/5/22:
 
-###### Currently on 43 servers
+###### Currently on 52 servers
 
 | Command                     | Counts |
 | --------------------------- | ------ |
-| Insults:                    | 624    |
-| Praises:                    | 383    |
-| Gifs:                       | 648    |
-| CowSpeaks:                  | 102    |
+| Insults:                    | 804    |
+| Praises:                    | 446    |
+| Gifs:                       | 704    |
+| CowSpeaks:                  | 107    |
 | Thanks given:               | 6      |
-| 8Balls:                     | 105    |
+| 8Balls:                     | 146    |
 | Incorrect channels (noobs): | 9      |
 
-deployed on heroku
+~~deployed on heroku~~ Local home server

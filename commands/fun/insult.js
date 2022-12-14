@@ -1,6 +1,6 @@
 const unirest = require("unirest");
 const req = unirest("GET", "https://insult.mattbas.org/api/insult");
-const stats = require("../.././statistics");
+// const stats = require("../.././statistics");
 
 module.exports = {
     name: "insult",
@@ -28,7 +28,7 @@ module.exports = {
                     .send(`<@${member.id}>, ${insult}`)
                     .then((e) => {
                         e.react("🔥");
-                        stats.insult.update();
+                        // stats.insult.update();
                     })
                     .catch((err) => {
                         return `insult error: ${err}`;

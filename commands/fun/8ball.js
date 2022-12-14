@@ -1,5 +1,5 @@
 const unirest = require("unirest");
-const stats = require("../.././statistics");
+// const stats = require("../.././statistics");
 
 module.exports = {
     name: "8ball",
@@ -15,22 +15,21 @@ module.exports = {
 
             req.end((res) => {
                 try {
-                    return message.channel
-                        .send(
-                            "```" +
-                                "Question: " +
-                                res.body.magic.question +
-                                "\n" +
-                                "Answer: " +
-                                res.body.magic.answer +
-                                "```"
-                        )
-                        .then(() => {
-                            stats.answer.update();
-                        })
-                        .catch((err) => {
-                            return err;
-                        });
+                    return message.channel.send(
+                        "```" +
+                            "Question: " +
+                            res.body.magic.question +
+                            "\n" +
+                            "Answer: " +
+                            res.body.magic.answer +
+                            "```"
+                    );
+                    // .then(() => {
+                    //     stats.answer.update();
+                    // })
+                    // .catch((err) => {
+                    //     return err;
+                    // });
                 } catch (err) {
                     return err;
                 }

@@ -1,65 +1,42 @@
 const { PREFIX, TOKEN } = require("./config.js");
 const fs = require("fs");
-const Discord = require("discord.js");
+const path = require("node:path");
+const { Client, Events, Collection, GatewayIntentBits } = require("discord.js");
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+client.commands = new Collection();
 
-const commandFolders = fs.readdirSync("./commands");
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
 
-for (const folder of commandFolders) {
-    const commandFiles = fs
-        .readdirSync(`./commands/${folder}`)
-        .filter((file) => file.endsWith(".js"));
-    for (const file of commandFiles) {
-        const command = require(`./commands/${folder}/${file}`);
-        client.commands.set(command.name, command);
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+    .readdirSync(eventsPath)
+    .filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    // Set a new item in the Collection with the key as the command name and the value as the exported module
+    if ("data" in command && "execute" in command) {
+        client.commands.set(command.data.name, command);
+    } else {
+        console.log(
+            `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+        );
     }
 }
 
-client.once("ready", () => {
-    console.log("sup playa");
-});
-
-client.on("message", (message) => {
-    if (!message.content.startsWith(PREFIX) || message.author.bot) return;
-
-    const args = message.content.slice(PREFIX.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-
-    if (!client.commands.has(commandName)) return;
-
-    const command = client.commands.get(commandName);
-
-    const sendToOatmeal = (chatMessage, message) => {
-        client.users.fetch("254838552960040960", false).then((user) => {
-            user.send(
-                `${chatMessage} 
-            Username: ${message.author.username} 
-            discriminator: ${message.author.discriminator} 
-            guild: ${message.guild.name}
-            guildID: ${message.guild.id}
-            `
-            );
-        });
-    };
-
-    //Sending the bot reply
-    try {
-        command.execute(message, args, client, sendToOatmeal);
-    } catch (error) {
-        message.reply(
-            `Hmmm something went wrong with the result.. Try again? Error logged. \n ${error}`
-        );
-        sendToOatmeal(error, message);
-        message.author.send(
-            `If you're tweaking the code and have questions. Feel free to add me as a friend and I can help troubleshoot. Professor Oatmeal#2612`
-        );
+for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
     }
-});
+}
 
 client.login(TOKEN);
-
-client.on("ready", () => {
-    client.user.setActivity(" !help for info", { type: "WATCHING" });
-});

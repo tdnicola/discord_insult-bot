@@ -1,9 +1,17 @@
 const { GIF_TOKEN } = require("../.././config.js");
 var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=`;
 var randomGifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
-const stats = require("../.././statistics");
+// const stats = require("../.././statistics");
 const unirest = require("unirest");
 
+/*
+TEMPLATE FOR SENDING FILES
+      const catResult = await request("https://aws.random.cat/meow");
+        const { file } = await catResult.body.json();
+        interaction.reply({ files: [file] });
+
+
+*/
 module.exports = {
     name: "gif",
     description: "giphy you for me!",
@@ -41,14 +49,15 @@ module.exports = {
                 }
 
                 try {
-                    return message.channel
-                        .send({ files: [selectedGif.images.fixed_height.url] })
-                        .then(() => {
-                            stats.gif.update();
-                        })
-                        .catch((err) => {
-                            return err;
-                        });
+                    return message.channel.send({
+                        files: [selectedGif.images.fixed_height.url],
+                    });
+                    // .then(() => {
+                    //     stats.gif.update();
+                    // })
+                    // .catch((err) => {
+                    //     return err;
+                    // });
                 } catch (err) {
                     return err;
                 }
@@ -66,14 +75,13 @@ module.exports = {
                 var gif = res.body.data.images.fixed_height.url;
                 message.channel.send("I hope this is a good one..");
                 try {
-                    return message.channel
-                        .send({ files: [gif] })
-                        .then(() => {
-                            stats.gif.update();
-                        })
-                        .catch((err) => {
-                            return err;
-                        });
+                    return message.channel.send({ files: [gif] });
+                    // .then(() => {
+                    //     stats.gif.update();
+                    // })
+                    // .catch((err) => {
+                    //     return err;
+                    // });
                 } catch (err) {
                     return err;
                 }
