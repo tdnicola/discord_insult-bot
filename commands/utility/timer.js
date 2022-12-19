@@ -1,25 +1,27 @@
+const { SlashCommandBuilder } = require("discord.js");
+const wait = require("node:timers/promises").setTimeout;
+
 module.exports = {
-    name: "timer",
-    description: "The countdown has started.",
-    usage: "<1-20> !timer 5 mins for a 5 min timer.",
-    args: true,
-    execute(message, args) {
-        let numberFound = undefined;
+    data: new SlashCommandBuilder()
+        .setName("timer")
+        .setDescription("Squad up... in 5 mins")
+        .addIntegerOption((option) =>
+            option
+                .setName("timer")
+                .setRequired(true)
+                .setDescription(
+                    "length of minutes to wait. Select a number between 1-15"
+                )
+                .setMinValue(1)
+                .setMaxValue(15)
+        ),
+    async execute(interaction) {
+        const timerLength = interaction.options.getInteger("timer");
 
-        if (args[0] >= 1 && args[0] <= 20) {
-            numberFound = args[0];
-        }
+        const mins = timerLength * 60000;
+        await interaction.reply(`${timerLength} min timer started`);
 
-        if (!numberFound) {
-            return message.channel.send(
-                "Please pick a timer between 1 and 20 minutes."
-            );
-        } else {
-            message.channel.send(`${numberFound} min timer started`);
-            let timerTimeout = numberFound * 60000;
-            setTimeout(() => {
-                message.reply(`${numberFound} minute timer is up.`);
-            }, timerTimeout);
-        }
+        await wait(mins);
+        await interaction.followUp(`${timerLength} min timer is up!`);
     },
 };

@@ -1,90 +1,56 @@
+const { request } = require("undici");
+const { SlashCommandBuilder } = require("discord.js");
 const { GIF_TOKEN } = require("../.././config.js");
-var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=`;
-var randomGifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
-// const stats = require("../.././statistics");
-const unirest = require("unirest");
+// var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=`;
+// var randomGifURLBase = `https://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
 
-/*
-TEMPLATE FOR SENDING FILES
-      const catResult = await request("https://aws.random.cat/meow");
-        const { file } = await catResult.body.json();
-        interaction.reply({ files: [file] });
-
-
-*/
 module.exports = {
-    name: "gif",
-    description: "giphy you for me!",
-    args: false,
-    usage: "<searchterm> !gif dogs . For a random gif just !gif",
-    execute(message, args) {
-        noWeirdEmojis = message.content.replace(/[^\w\s]|_/g, "");
+    data: new SlashCommandBuilder()
+        .setName("gif")
+        .setDescription("giphy you for me")
+        .addStringOption((option) =>
+            option
+                .setName("search")
+                .setDescription(
+                    "Search for a random gif or no search term for completely random gif."
+                )
+        ),
+    async execute(interaction) {
+        const gifSearchTerm = interaction.options.getString("search");
 
-        let splitMessage = noWeirdEmojis.split(" ");
+        if (!gifSearchTerm) {
+            var gifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
 
-        //emoji has search term behind the 1st word
-        if (splitMessage.length >= 2) {
-            splitMessage.shift();
-            splitMessage = splitMessage.join("+");
-            console.log(splitMessage);
-            joinedArgs = args.join("+");
-            console.log(joinedArgs);
+            const gifURL = await request(gifURLBase);
 
-            var gifSearchURL = `${searchGifURLBase}${splitMessage}&limit=35`;
-            var req = unirest("GET", gifSearchURL);
+            const { data } = await gifURL.body.json();
 
-            req.end((res) => {
-                var totalResponses = res.body.data.length;
-                var resIndex = Math.floor(Math.random() * totalResponses);
-                var selectedGif = res.body.data[resIndex];
-
-                if (res.error) {
-                    return res.error;
-                }
-
-                if (!totalResponses) {
-                    return message.channel.send(
-                        "Weird search homie, no results.."
-                    );
-                }
-
-                try {
-                    return message.channel.send({
-                        files: [selectedGif.images.fixed_height.url],
-                    });
-                    // .then(() => {
-                    //     stats.gif.update();
-                    // })
-                    // .catch((err) => {
-                    //     return err;
-                    // });
-                } catch (err) {
-                    return err;
-                }
+            await interaction.reply({
+                files: [data.images.fixed_height.url],
+                ephemeral: true,
             });
-
-            // no search term and results in random gif
         } else {
-            var req = unirest("GET", randomGifURLBase);
+            splitMessage = gifSearchTerm.split(" ");
+            gifSearchSplitMessage = splitMessage.join("+");
+            var gifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=${gifSearchSplitMessage}&limit=35`;
 
-            req.end((res) => {
-                if (res.error) {
-                    return res.error;
-                }
+            const gifURL = await request(gifURLBase);
 
-                var gif = res.body.data.images.fixed_height.url;
-                message.channel.send("I hope this is a good one..");
-                try {
-                    return message.channel.send({ files: [gif] });
-                    // .then(() => {
-                    //     stats.gif.update();
-                    // })
-                    // .catch((err) => {
-                    //     return err;
-                    // });
-                } catch (err) {
-                    return err;
-                }
+            // const { url } = await gifURL.body.data.images.fixed_height.json();
+            const { data } = await gifURL.body.json();
+
+            var totalResponses = await data.length;
+            var resIndex = Math.floor(Math.random() * totalResponses);
+            var selectedGif = data[resIndex];
+
+            if (!totalResponses) {
+                return await interaction.reply(
+                    "Weird search homie, no results.."
+                );
+            }
+
+            await interaction.reply({
+                files: [selectedGif.images.fixed_height.url],
             });
         }
     },

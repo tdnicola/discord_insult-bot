@@ -1,41 +1,30 @@
-const unirest = require("unirest");
-// const stats = require("../.././statistics");
+const { request } = require("undici");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-    name: "8ball",
-    description:
-        "The magic 8ball that gives you all the answers.. Well sometimes.",
-    args: true,
-    usage: "<question> !8ball Why do i suck at league?",
-    execute(message, args) {
-        if (args.length >= 1) {
-            const question = args.join(" ");
-            const eightBallURL = `https://8ball.delegator.com/magic/JSON/${question}`;
-            const req = unirest("get", eightBallURL);
+    data: new SlashCommandBuilder()
+        .setName("8ball")
+        .setDescription(
+            "The magic 8ball that gives you all the answers.. Well sometimes."
+        )
+        .addStringOption((option) =>
+            option
+                .setName("question")
+                .setDescription("Will I win this game?")
+                .setRequired(true)
+        ),
+    async execute(interaction) {
+        const question = interaction.options.getString("question");
 
-            req.end((res) => {
-                try {
-                    return message.channel.send(
-                        "```" +
-                            "Question: " +
-                            res.body.magic.question +
-                            "\n" +
-                            "Answer: " +
-                            res.body.magic.answer +
-                            "```"
-                    );
-                    // .then(() => {
-                    //     stats.answer.update();
-                    // })
-                    // .catch((err) => {
-                    //     return err;
-                    // });
-                } catch (err) {
-                    return err;
-                }
-            });
-        } else {
-            return message.channel.send("Gotta have words behind it homie.");
-        }
+        const questionURL = await request("https://eightballapi.com/api");
+        const { reading } = await questionURL.body.json();
+        await console.log(reading);
+        // await interaction.reply(
+        //     `Question:
+        //     ${question}
+        //     Answer:
+        //     ${reading}
+        //     `
+        // );
     },
 };

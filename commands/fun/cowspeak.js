@@ -1,36 +1,24 @@
-const unirest = require("unirest");
-// const stats = require("../.././statistics");
+const { request } = require("undici");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-    name: "moo",
-    description: "Cowspeak, Moo i'm a cow...",
-    usage: "<request> !moo i am a cow.",
-    args: true,
-    execute(message, args) {
-        if (args.length >= 1) {
-            joinedMessage = args.join("+");
+    data: new SlashCommandBuilder()
+        .setName("moo")
+        .setDescription("Cowspeak, Moo i'm a cow...!")
+        .addStringOption((option) =>
+            option.setName("cowspeak").setDescription("The text for cowspeak")
+        ),
+    async execute(interaction) {
+        const cowspeakText =
+            interaction.options.getString("cowspeak") ?? "HoW I sPeAk CoW?/";
+        splitMessage = cowspeakText.split(" ");
+        joinedMessage = splitMessage.join("+");
 
-            const mooURL = `http://cowsay.morecode.org/say?message=${joinedMessage}&format=text`;
-            var req = unirest("GET", mooURL);
+        const mooURL = await request(
+            `http://cowsay.morecode.org/say?message=${joinedMessage}&format=json`
+        );
+        const { cow } = await mooURL.body.json();
 
-            req.end((res) => {
-                if (res.error) {
-                    return res.error;
-                }
-                try {
-                    return message.channel.send(`\`\`\`${res.body} \`\`\``);
-                    // .then(() => {
-                    //     stats.cow.update();
-                    // })
-                    // .catch((err) => {
-                    //     return err;
-                    // });
-                } catch (error) {
-                    return error;
-                }
-            });
-        } else {
-            return message.channel.send("Gotta have words behind it homie.");
-        }
+        await interaction.reply("```" + cow + "```");
     },
 };

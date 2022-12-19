@@ -1,41 +1,30 @@
-const unirest = require("unirest");
-const req = unirest("GET", "https://insult.mattbas.org/api/insult");
-// const stats = require("../.././statistics");
+const { request } = require("undici");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-    name: "insult",
-    description: "Get gud noob!",
-    usage: "<@user> !insult @professorOatmeal",
-    args: true,
-    execute(message, args) {
-        let member = message.mentions.members.first();
-        if (member == "" || member == null) {
-            return message.reply(
-                "Dude you had to include two things and you screwed that up..."
-            );
-        }
-        // insults themself
-        if (member.user.username === message.author.username) {
-            message.reply("Dang hating on themself.. I mean I guess I can..");
-        }
-        req.end((res) => {
-            if (res.error) {
-                return res.error;
-            }
-            try {
-                var insult = res.raw_body.toLowerCase();
-                message.channel
-                    .send(`<@${member.id}>, ${insult}`)
-                    .then((e) => {
-                        e.react("🔥");
-                        // stats.insult.update();
-                    })
-                    .catch((err) => {
-                        return `insult error: ${err}`;
-                    });
-            } catch (err) {
-                return err;
-            }
-        });
+    data: new SlashCommandBuilder()
+        .setName("insult")
+        .setDescription("Get gud Noob")
+        .addUserOption((option) =>
+            option.setName("user").setDescription("Let's insult somebody...")
+        ),
+    async execute(interaction) {
+        const insultURL = await request(
+            `https://insult.mattbas.org/api/insult.json`
+        );
+        const { insult } = await insultURL.body.json();
+
+        await interaction.reply(
+            `${
+                interaction.options.getUser("user") ?? interaction.user
+            } ${insult}`
+        );
+
+        /*
+        	if (commandName === 'react') {
+		const message = await interaction.reply({ content: 'You can react with Unicode emojis!', fetchReply: true });
+		message.react('😄');
+	}
+        */
     },
 };

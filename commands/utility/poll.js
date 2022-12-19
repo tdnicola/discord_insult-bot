@@ -1,3 +1,88 @@
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName("poll")
+        .setDescription("Let's see what the people want.")
+        .addStringOption((option) =>
+            option
+                .setName("options")
+                .setRequired(true)
+                .setDescription(
+                    "What Choices? Seperate choices by using +. Ex: what is your favorite animal? +dog +cat"
+                )
+        ),
+    async execute(interaction) {
+        const choiceInput = interaction.options.getString("options");
+        pollOptions = choiceInput.split("+");
+
+        question = pollOptions[0];
+        pollOptions.shift();
+        if (pollOptions.length > 1) {
+            const alphabet = [
+                "🇦",
+                "🇧",
+                "🇨",
+                "🇩",
+                "🇪",
+                "🇫",
+                "🇬",
+                "🇭",
+                "🇮",
+                "🇯",
+                "🇰",
+                "🇱",
+                "🇲",
+                "🇳",
+                "🇴",
+                "🇵",
+                "🇶",
+                "🇷",
+                "🇸",
+                "🇹",
+                "🇺",
+                "🇻",
+                "🇼",
+                "🇽",
+                "🇾",
+                "🇿",
+            ];
+
+            if (pollOptions.length > alphabet.length) {
+                return await interaction.reply(
+                    "Too many poll options. Please use less than 26.. My goodness what kind of poll is this?"
+                );
+            }
+            const alphabetIconArray = [];
+
+            const exampleEmbed = new EmbedBuilder()
+                .setColor("#0099ff")
+                .setTitle(`📊 ${question}`)
+                .setAuthor({ name: interaction.user.username });
+
+            let count = 0;
+            pollOptions.forEach((option) => {
+                alphabetIconArray.push(alphabet[count] + " " + option);
+                count++;
+            });
+
+            exampleEmbed.setDescription(alphabetIconArray.join("\n\n"));
+            await interaction.reply(
+                "```" + interaction.user.username + " asks: " + question + "```"
+            );
+            await interaction.channel
+                .send({ embeds: [exampleEmbed] })
+                .then((msg) => {
+                    for (let i = 0; i < pollOptions.length; i++) {
+                        msg.react(alphabet[i]);
+                    }
+                });
+        }
+    },
+};
+
+/*
+
 const Discord = require("discord.js");
 
 module.exports = {
@@ -85,3 +170,4 @@ module.exports = {
         }
     },
 };
+*/

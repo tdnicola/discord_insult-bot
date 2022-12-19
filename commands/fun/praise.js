@@ -1,41 +1,27 @@
-// const stats = require("../.././statistics");
-const unirest = require("unirest");
-const req = unirest("GET", "https://complimentr.com/api");
+const { request } = require("undici");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
-    name: "praise",
-    description: "Praise me like you shoulddddddd...",
-    usage: "<@user> !praise @professorOatmeal",
-    args: false,
-    execute(message, args) {
-        let member = message.mentions.members.first();
+    data: new SlashCommandBuilder()
+        .setName("praise")
+        .setDescription("Hey you're pretty cool.")
+        .addUserOption((option) =>
+            option.setName("user").setDescription("Let's be nice to people")
+        ),
+    async execute(interaction) {
+        const complimentURL = await request(`https://complimentr.com/api`);
+        const { compliment } = await complimentURL.body.json();
 
-        //no mention no api call
-        if (member == "" || member == null) {
-            return message.reply(
-                "Dude you had to include two things and you screwed that up..."
-            );
-        }
-
-        if (member.user.username === message.author.username) {
-            return message.reply("We get it, you like yourself..");
-        }
-
-        req.end((res) => {
-            var praise = String(res.body.compliment);
-            try {
-                return message.channel
-                    .send(`<@${member.id}>, ${praise}.`)
-                    .then((e) => {
-                        e.react("🙏");
-                        // stats.praise.update();
-                    })
-                    .catch((err) => {
-                        return `Praise error: ${err}`;
-                    });
-            } catch (err) {
-                return `Praise error: ${err}`;
-            }
-        });
+        await interaction.reply(
+            `${
+                interaction.options.getUser("user") ?? interaction.user
+            } ${compliment}`
+        );
+        /*
+        	if (commandName === 'react') {
+		const message = await interaction.reply({ content: 'You can react with Unicode emojis!', fetchReply: true });
+		message.react('😄');
+	}
+        */
     },
 };
