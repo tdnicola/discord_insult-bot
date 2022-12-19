@@ -8,7 +8,7 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 
 #### This little project started as something to insult friends with a random api. It since has become a fun project. I use it to learn and try new concepts while adding new features to the bot.
 
-#### Currently updating from v12 to v14 slash commands. WIP -12/13/22
+#### Currently updating from v12 to v14 slash commands. WIP -12/19/22
 
 ---
 
@@ -22,27 +22,27 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 </dl>
 
 ```
-!insult @person
+/insult @person
 
-!praise @person
+/praise @person
 
-!gif
+/gif
 
-!gif searchterm
+/gif searchterm
 
-!moo sentence
+/moo sentence
 
-!8ball question
+/8ball question
 
-!timer 5 mins
+/timer 5 mins
 
-!choose this or that?
+/choose this or that?
 
-!poll Which number is better? +1 +2
+/poll Which number is better? +1 +2
 
-!comment hey can we add this feature?
+/comment hey can we add this feature?
 
-!help for a list of commands
+/help for a list of commands
 
 
 ```
@@ -55,6 +55,7 @@ API links:
 -   [Gifs](https://api.giphy.com/v1/gifs/random)
 -   [CowSay](http://cowsay.morecode.org/)
 -   ~~[8Ball](https://8ball.delegator.com/)~~ RIP from Heroku
+-   [8Ball](https://eightballapi.com/api) --possible replacement. WIP 12/19/22
 
 ## Requirements
 
@@ -68,7 +69,7 @@ API links:
 3. create .env file based on env.sample file
 
 -   TOKEN=discord bot token
--   PREFIX=currently !
+-   ~~PREFIX=currently !~~ --Unused now, changed to slash commands
 -   GIF_TOKEN=giphy token
 -   DATABASE_URL=heroku postgres string (if wanted to your own tracking. Would have to set up own server)
 

@@ -24,10 +24,9 @@ module.exports = {
             const gifURL = await request(gifURLBase);
 
             const { data } = await gifURL.body.json();
-
-            await interaction.reply({
+            await interaction.deferReply();
+            await interaction.editReply({
                 files: [data.images.fixed_height.url],
-                ephemeral: true,
             });
         } else {
             splitMessage = gifSearchTerm.split(" ");
@@ -48,8 +47,8 @@ module.exports = {
                     "Weird search homie, no results.."
                 );
             }
-
-            await interaction.reply({
+            await interaction.deferReply();
+            await interaction.editReply({
                 files: [selectedGif.images.fixed_height.url],
             });
         }

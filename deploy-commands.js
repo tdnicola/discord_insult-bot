@@ -39,14 +39,12 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
             Routes.applicationGuildCommands(CLIENTID, GUILDID),
             { body: commands }
         );
-
-        /* //Global
-            await rest.put(
-	            Routes.applicationCommands(clientId),
-	            { body: commands },
-            );
+        /*
+        //Global
+        await rest.put(Routes.applicationCommands(CLIENTID), {
+            body: commands,
+        });
         */
-
         console.log(
             `Successfully reloaded ${data.length} application (/) commands.`
         );
