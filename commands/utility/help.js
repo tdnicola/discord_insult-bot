@@ -1,111 +1,58 @@
-const {
-    ComponentType,
-    EmbedBuilder,
-    SlashCommandBuilder,
-    ActionRowBuilder,
-    SelectMenuBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const fs = require("fs");
+const path = require("node:path");
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("help")
         .setDescription("Get a list of all the commands form the discord bot."),
     async execute(interaction) {
-        const emojis = {
-            fun: "🎮",
-            server: "💾",
-            utility: "🔧",
-        };
-
-        const directories = [
-            ...new Set(interaction.client.commands.map((cmd) => cmd.folder)),
-        ];
-
-        const formatString = (str) =>
-            `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
-
-        const categories = directories.map((dir) => {
-            const getCommands = interaction.client.commands
-                .filter((cmd) => cmd.folder === dir)
-                .map((cmd) => {
-                    return {
-                        name: cmd.data.name,
-                        description:
-                            cmd.data.description ||
-                            "There is no description for this command.",
-                    };
-                });
-
-            return {
-                directory: formatString(dir),
-                commands: getCommands,
-            };
-        });
-
-        const embed = new EmbedBuilder().setDescription(
-            "Please choose a category in the dropdown menu"
+        console.log(
+            fs.readdirSync(path.join(__dirname, "..", "..", "commands"))
+        );
+        const commandFolder = fs.readdirSync(
+            path.join(__dirname, "..", "..", "commands")
         );
 
-        const components = (state) => [
-            new ActionRowBuilder().addComponents(
-                new SelectMenuBuilder()
-                    .setCustomId("help-menu")
-                    .setPlaceholder("Please select a category")
-                    .setDisabled(state)
-                    .addOptions(
-                        categories.map((cmd) => {
-                            return {
-                                label: cmd.directory,
-                                value: cmd.directory.toLowerCase(),
-                                description: `Commands from ${cmd.directory} category.`,
-                                emoji: emojis[
-                                    cmd.directory.toLowerCase() || null
-                                ],
-                            };
-                        })
-                    )
-            ),
-        ];
-
-        const initialMessage = await interaction.reply({
-            embeds: [embed],
-            components: components(false),
-        });
-
-        const filter = (interaction) =>
-            interaction.user.id === interaction.member.id;
-
-        const collector = interaction.channel.createMessageComponentCollector({
-            filter,
-            componentType: ComponentType.SelectMenu,
-        });
-
-        collector.on("collect", (interaction) => {
-            const [directory] = interaction.values;
-            const category = categories.find(
-                (x) => x.directory.toLowerCase() === directory
-            );
-
-            const categoryEmbed = new EmbedBuilder()
-                .setTitle(`${formatString(directory)} commands`)
-                .setDescription(
-                    `A list of all the commands categorized under ${directory}`
+        let commandList = [];
+        for (const folder of commandFolder) {
+            const commandFiles = fs
+                .readdirSync(
+                    path.join(__dirname, "..", "..", "commands", folder)
                 )
-                .addFields(
-                    category.commands.map((cmd) => {
-                        return {
-                            name: `\`${cmd.name}\``,
-                            value: cmd.description,
-                            inline: true,
-                        };
-                    })
-                );
+                .filter((file) => file.endsWith(".js"));
+            for (const file of commandFiles) {
+                const command = require(path.join(
+                    __dirname,
+                    "..",
+                    "..",
+                    "commands",
+                    folder,
+                    file
+                ));
+                if ("data" in command && "execute" in command) {
+                    console.log("in If statement ", folder, file);
+                    await commandList.push({
+                        name: command.data.name,
+                        description: command.data.description,
+                    });
+                }
+            }
+            console.log(commandList);
+        }
 
-            interaction.update({ embeds: [categoryEmbed] });
+        const exampleEmbed = new EmbedBuilder()
+            .setColor("#0099ff")
+            .setTitle(`Commands`)
+            .setAuthor({ name: interaction.user.username });
+
+        commandList.forEach((command) => {
+            exampleEmbed.addFields({
+                name: command.name,
+                value: command.description,
+            });
         });
 
-        collector.on("end", () => {
-            initialMessage.edit({ components: components(true) });
-        });
+        await interaction.reply({ embeds: [exampleEmbed] });
     },
 };
