@@ -18,7 +18,7 @@ module.exports = {
             `http://cowsay.morecode.org/say?message=${joinedMessage}&format=json`
         );
         const { cow } = await mooURL.body.json();
-
-        await interaction.reply("```" + cow + "```");
+        await interaction.deferReply();
+        await interaction.editReply("```" + cow + "```");
     },
 };

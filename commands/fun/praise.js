@@ -12,11 +12,13 @@ module.exports = {
         const complimentURL = await request(`https://complimentr.com/api`);
         const { compliment } = await complimentURL.body.json();
 
-        await interaction.reply(
+        await interaction.deferReply();
+        const message = await interaction.editReply(
             `${
                 interaction.options.getUser("user") ?? interaction.user
             } ${compliment}`
         );
+        message.react("🙏");
         /*
         	if (commandName === 'react') {
 		const message = await interaction.reply({ content: 'You can react with Unicode emojis!', fetchReply: true });

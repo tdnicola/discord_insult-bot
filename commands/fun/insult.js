@@ -13,12 +13,14 @@ module.exports = {
             `https://insult.mattbas.org/api/insult.json`
         );
         const { insult } = await insultURL.body.json();
+        await interaction.deferReply();
 
-        await interaction.reply(
+        const message = await interaction.editReply(
             `${
                 interaction.options.getUser("user") ?? interaction.user
             } ${insult}`
         );
+        message.react("🔥");
 
         /*
         	if (commandName === 'react') {

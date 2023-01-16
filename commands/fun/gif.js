@@ -26,6 +26,7 @@ module.exports = {
             const { data } = await gifURL.body.json();
             await interaction.deferReply();
             await interaction.editReply({
+                content: `${interaction.user}: Random search`,
                 files: [data.images.fixed_height.url],
             });
         } else {
@@ -44,11 +45,12 @@ module.exports = {
 
             if (!totalResponses) {
                 return await interaction.reply(
-                    "Weird search homie, no results.."
+                    `${interaction.user} searched for "${gifSearchTerm}." Weird search homie, no results..`
                 );
             }
             await interaction.deferReply();
             await interaction.editReply({
+                content: `${interaction.user}: ${gifSearchTerm}`,
                 files: [selectedGif.images.fixed_height.url],
             });
         }
