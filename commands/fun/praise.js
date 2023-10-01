@@ -9,7 +9,7 @@ module.exports = {
             option.setName("user").setDescription("Let's be nice to people")
         ),
     async execute(interaction) {
-        const complimentURL = await request(`https://complimentr.com/api`);
+        const complimentURL = await request(`http://127.0.0.1:5000/`);
         const { compliment } = await complimentURL.body.json();
 
         await interaction.deferReply();

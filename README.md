@@ -51,7 +51,8 @@ API links:
 
 -   ~~[Insults](https://rapidapi.com/Lakerolmaker/api/insult-generator/endpoints)~~ No longer works
 -   [Insults](https://insult.mattbas.org/api/insult)
--   [Praises](https://complimentr.com/api)
+-   ~~[Praises](https://complimentr.com/api)~~ No longer works
+-   [Praises](https://github.com/tdnicola/ComplementPlease)
 -   [Gifs](https://api.giphy.com/v1/gifs/random)
 -   [CowSay](http://cowsay.morecode.org/)
 -   ~~[8Ball](https://8ball.delegator.com/)~~ RIP from Heroku
