@@ -8,6 +8,8 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 
 #### This little project started as something to insult friends with a random api. It since has become a fun project. I use it to learn and try new concepts while adding new features to the bot.
 
+#### Please feel free to ping me with suggestions or requests!
+
 ---
 
 <dl>
@@ -59,7 +61,7 @@ API links:
 ## Requirements
 
 1. [Need Node.js and Discord.js installed](https://discordjs.guide/preparations/#installing-node-js)
-2. Create discord account for your bot and add it to your server. Add token to config.json
+2. [Create discord bot account](https://discordpy.readthedocs.io/en/stable/discord.html) and add it to your server. Add token to .env
 
 ## Installation
 
@@ -74,10 +76,9 @@ API links:
 
 4. comment out stat api calls if no need for tracking stats
 5. node bot.js
+6. comment out sendToOatmeal function in interactionCreate.js Or change the userID to yours. (This is sending errors to me for troubleshooting)
 
-#### FINAL HEROKU POSTGRES STATS 12/5/22:
-
-###### Currently on 52 servers
+#### FINAL HEROKU POSTGRES STATS 12/5/22: RIP HOMIE
 
 | Command                     | Counts |
 | --------------------------- | ------ |

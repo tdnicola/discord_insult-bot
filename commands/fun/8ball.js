@@ -20,11 +20,7 @@ module.exports = {
         const { reading } = await questionURL.body.json();
         await console.log(reading);
         await interaction.reply(
-            `Question:
-            ${question}
-            Answer:
-            ${reading}
-            `
+            `Question: ${question} \n Answer: ${reading}`
         );
     },
 };
