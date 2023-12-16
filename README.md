@@ -8,8 +8,6 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 
 #### This little project started as something to insult friends with a random api. It since has become a fun project. I use it to learn and try new concepts while adding new features to the bot.
 
-#### Currently updating from v12 to v14 slash commands. WIP -12/19/22
-
 ---
 
 <dl>

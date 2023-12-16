@@ -34,6 +34,7 @@ module.exports = {
             await command.execute(interaction, sendToOatmeals);
         } catch (error) {
             sendToOatmeals(`InteractionCreate Error:  ${error}`);
+            interaction.user.send("Hmm something went wrong. Message sent to Developer");
             console.error(`Error executing ${interaction.commandName}`);
             console.error(error);
         }

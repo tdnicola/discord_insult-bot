@@ -22,11 +22,5 @@ module.exports = {
         );
         message.react("🔥");
 
-        /*
-        	if (commandName === 'react') {
-		const message = await interaction.reply({ content: 'You can react with Unicode emojis!', fetchReply: true });
-		message.react('😄');
-	}
-        */
     },
 };

@@ -15,7 +15,7 @@ module.exports = {
         joinedMessage = splitMessage.join("+");
 
         const mooURL = await request(
-            `http://cowsay.morecode.org/say?message=${joinedMessage}&format=json`
+            `https://cowsay.morecode.org/say?message=${joinedMessage}&format=json`
         );
         const { cow } = await mooURL.body.json();
         await interaction.deferReply();

@@ -4,14 +4,14 @@
   "description": "",
   "main": "bot.js",
   "dependencies": {
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.1",
-    "opusscript": "^0.0.7",
-    "pg": "^8.7.3",
-    "split2": "^3.2.2",
-    "undici": "^5.14.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "opusscript": "^0.1.1",
+    "pg": "^8.11.3",
+    "split2": "^4.2.0",
+    "undici": "^6.0.1",
     "unirest": "^0.6.0",
-    "ytdl-core": "^1.0.9"
+    "ytdl-core": "^4.11.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
