@@ -38,6 +38,8 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 
 /choose this or that?
 
+/dadjoke
+
 /poll Which number is better? +1 +2
 
 /comment hey can we add this feature?
@@ -57,6 +59,7 @@ API links:
 -   [CowSay](http://cowsay.morecode.org/)
 -   ~~[8Ball](https://8ball.delegator.com/)~~ RIP from Heroku
 -   [8Ball](https://eightballapi.com/api) --possible replacement. WIP 12/19/22
+-   [dadJoke](http://icanhazdadjoke.com) 
 
 ## Requirements
 
