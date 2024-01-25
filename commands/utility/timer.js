@@ -17,11 +17,9 @@ module.exports = {
         ),
     async execute(interaction) {
         const timerLength = interaction.options.getInteger("timer");
-        timerLength = (timerLength == 15) ? timerLength = 14.90 : timerLength 
-
         const mins = (timerLength == 15) ? 895000 : timerLength * 60000
-        await interaction.reply(`${timerLength} min timer started`);
 
+        await interaction.reply(`${timerLength} min timer started`);
         await wait(mins);
         await interaction.followUp(`${timerLength} min timer is up!`);
     },
