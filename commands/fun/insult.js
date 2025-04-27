@@ -1,5 +1,7 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
+const API_BASE_URL = process.env.API_BASE_URL || 'http://host.docker.internal:5000';
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +12,7 @@ module.exports = {
         ),
     async execute(interaction) {
         const insultURL = await request(
-            `http://host.docker.internal:5000/insult`
+            `${API_BASE_URL}/insult`
         );
         const body = await insultURL.body.json(); 
         const insult = body.message; 
