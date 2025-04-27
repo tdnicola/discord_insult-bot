@@ -10,9 +10,11 @@ module.exports = {
         ),
     async execute(interaction) {
         const insultURL = await request(
-            `https://insult.mattbas.org/api/insult.json`
+            `http://host.docker.internal:5000/insult`
         );
-        const { insult } = await insultURL.body.json();
+        const body = await insultURL.body.json(); 
+        const insult = body.message; 
+
         await interaction.deferReply();
 
         const message = await interaction.editReply(
