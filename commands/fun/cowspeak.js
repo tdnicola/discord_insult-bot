@@ -1,5 +1,6 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
+const { updateUserAction } = require('../../db'); 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,5 +21,7 @@ module.exports = {
         const { cow } = await mooURL.body.json();
         await interaction.deferReply();
         await interaction.editReply("```" + cow + "```");
+        await updateUserAction(interaction.user.id, interaction.user.username, 'moos_made');
+
     },
 };
