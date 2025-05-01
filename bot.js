@@ -2,11 +2,6 @@ const { PREFIX, TOKEN } = require("./config.js");
 const fs = require("fs");
 const path = require("node:path");
 const { Client, Events, Collection, GatewayIntentBits } = require("discord.js");
-const { testConnection } = require('./db'); 
-
-
-testConnection(); 
-
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();

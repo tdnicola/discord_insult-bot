@@ -1,8 +1,7 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
 const { GIF_TOKEN } = require("../.././config.js");
-// var searchGifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=`;
-// var randomGifURLBase = `https://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
+const { updateUserAction } = require('../../db'); 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -54,5 +53,8 @@ module.exports = {
                 files: [selectedGif.images.fixed_height.url],
             });
         }
+
+        await updateUserAction(interaction.user.id, interaction.user.username, 'gif_posted');
+
     },
 };

@@ -1,5 +1,6 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
+const { updateUserAction } = require('../../db'); 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,5 +13,7 @@ module.exports = {
         const dadJokeURL = await request("https://icanhazdadjoke.com", {headers: {Accept: "application/json"}});
         const {joke}  = await dadJokeURL.body.json()
         await interaction.reply(`${joke}`);
+        await updateUserAction(interaction.user.id, interaction.user.username, 'dadjoke_told');
+
     },
 };

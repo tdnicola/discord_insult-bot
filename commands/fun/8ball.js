@@ -1,5 +1,6 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
+const { updateUserAction } = require('../../db'); 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,5 +23,7 @@ module.exports = {
         await interaction.reply(
             `Question: ${question} \n Answer: ${reading}`
         );
+        await updateUserAction(interaction.user.id, interaction.user.username, 'eightball_asked');
+
     },
 };

@@ -85,5 +85,4 @@ async function updateInteractionStats(senderId, senderName, targetId, targetName
 }
 
 
-
 module.exports = { testConnection, updateInteractionStats, updateUserAction};
