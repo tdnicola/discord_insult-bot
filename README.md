@@ -52,9 +52,10 @@ https://discord.com/api/oauth2/authorize?client_id=613364681750609943&permission
 API links:
 
 -   ~~[Insults](https://rapidapi.com/Lakerolmaker/api/insult-generator/endpoints)~~ No longer works
--   [Insults](https://insult.mattbas.org/api/insult)
+-   ~~[Insults](https://insult.mattbas.org/api/insult)~~ Inconsistent
+-   [Insults](https://github.com/tdnicola/toast_and_roast_api) Made one I know should always be up. But don't quote me on that...
 -   ~~[Praises](https://complimentr.com/api)~~ No longer works
--   [Praises](https://github.com/tdnicola/ComplementPlease)
+-   [Praises](https://github.com/tdnicola/toast_and_roast_api)
 -   [Gifs](https://api.giphy.com/v1/gifs/random)
 -   [CowSay](http://cowsay.morecode.org/)
 -   ~~[8Ball](https://8ball.delegator.com/)~~ RIP from Heroku
