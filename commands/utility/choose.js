@@ -13,11 +13,9 @@ module.exports = {
     async execute(interaction) {
         const choiceInput = interaction.options.getString("choices");
         const splitOptions = choiceInput.split(" or ");
-        const randomAnswer =
-            splitOptions[Math.floor(Math.random() * splitOptions.length)];
+        const randomAnswer = splitOptions[Math.floor(Math.random() * splitOptions.length)];
         await interaction.reply(
-            "```" + interaction.user.username + " asks: " + choiceInput + "```"
+            "```" + interaction.user.username + " asks: " + choiceInput + "```\n" + randomAnswer
         );
-        await interaction.channel.send(randomAnswer);
     },
 };

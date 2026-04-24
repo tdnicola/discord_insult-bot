@@ -12,9 +12,9 @@ module.exports = {
                 .setRequired(true)
                 .setDescription("Hey man can you add a random pokemon command?")
         ),
-    async execute(interaction, sendToOatmeals) {
+    async execute(interaction) {
         const userComment = interaction.options.getString("comment");
-        sendToOatmeals(`${userComment}`);
+        interaction.client.sendToOatmeals(interaction, userComment);
         await interaction.reply("Comment sent. Thank you");
     },
 };

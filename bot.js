@@ -1,10 +1,26 @@
-const { PREFIX, TOKEN } = require("./config.js");
+const { TOKEN } = require("./config.js");
 const fs = require("fs");
 const path = require("node:path");
 const { Client, Events, Collection, GatewayIntentBits } = require("discord.js");
+const { testConnection } = require("./db");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
+
+client.sendToOatmeals = async (interaction, chatMessage) => {
+    const ownerId = process.env.OWNER_ID;
+    if (!ownerId) {
+        console.warn('OWNER_ID not set — cannot send error report');
+        return;
+    }
+    try {
+        await interaction.client.users.send(ownerId,
+            `Message: ${chatMessage}\nUsername: ${interaction.user}\nGuild: ${interaction.guild}\nGuildID: ${interaction.guild.id}\nInteraction: ${interaction}`
+        );
+    } catch (err) {
+        console.log(`Error sending to owner: ${err}`);
+    }
+};
 
 const commandFolder = fs.readdirSync("./commands");
 
@@ -40,4 +56,5 @@ for (const file of eventFiles) {
     }
 }
 
+testConnection();
 client.login(TOKEN);
