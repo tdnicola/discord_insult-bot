@@ -85,4 +85,8 @@ async function updateInteractionStats(senderId, senderName, targetId, targetName
 }
 
 
-module.exports = { testConnection, updateInteractionStats, updateUserAction};
+async function query(text, params) {
+  return pool.query(text, params);
+}
+
+module.exports = { testConnection, updateInteractionStats, updateUserAction, query };

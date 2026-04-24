@@ -19,8 +19,6 @@ module.exports = {
         const body = await insultURL.body.json(); 
         const insult = body.message; 
         const target = interaction.options.getUser('user') || sender;
-        console.log(sender);
-        console.log(target);
         await interaction.deferReply();
 
         const message = await interaction.editReply(

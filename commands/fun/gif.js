@@ -18,7 +18,7 @@ module.exports = {
         const gifSearchTerm = interaction.options.getString("search");
 
         if (!gifSearchTerm) {
-            var gifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
+            const gifURLBase = `http://api.giphy.com/v1/gifs/random?api_key=${GIF_TOKEN}`;
 
             const gifURL = await request(gifURLBase);
 
@@ -29,18 +29,18 @@ module.exports = {
                 files: [data.images.fixed_height.url],
             });
         } else {
-            splitMessage = gifSearchTerm.split(" ");
-            gifSearchSplitMessage = splitMessage.join("+");
-            var gifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=${gifSearchSplitMessage}&limit=35`;
+            const splitMessage = gifSearchTerm.split(" ");
+            const gifSearchSplitMessage = splitMessage.join("+");
+            const gifURLBase = `https://api.giphy.com/v1/gifs/search?&api_key=${GIF_TOKEN}&q=${gifSearchSplitMessage}&limit=35`;
 
             const gifURL = await request(gifURLBase);
 
             // const { url } = await gifURL.body.data.images.fixed_height.json();
             const { data } = await gifURL.body.json();
 
-            var totalResponses = await data.length;
-            var resIndex = Math.floor(Math.random() * totalResponses);
-            var selectedGif = data[resIndex];
+            const totalResponses = data.length;
+            const resIndex = Math.floor(Math.random() * totalResponses);
+            const selectedGif = data[resIndex];
 
             if (!totalResponses) {
                 return await interaction.reply(

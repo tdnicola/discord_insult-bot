@@ -14,9 +14,9 @@ module.exports = {
         ),
     async execute(interaction) {
         const choiceInput = interaction.options.getString("options");
-        pollOptions = choiceInput.split("+");
+        const pollOptions = choiceInput.split("+");
 
-        question = pollOptions[0];
+        const question = pollOptions[0];
         pollOptions.shift();
         if (pollOptions.length > 1) {
             const alphabet = [

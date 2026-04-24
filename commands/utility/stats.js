@@ -1,9 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+const { query } = require('../../db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,7 +10,7 @@ module.exports = {
     await interaction.deferReply();
 
     try {
-      const res = await pool.query(`
+      const res = await query(`
         SELECT
           COALESCE(SUM(insult_given), 0) AS total_insults,
           COALESCE(SUM(praise_given), 0) AS total_praises,

@@ -19,7 +19,6 @@ module.exports = {
 
         const questionURL = await request("https://www.eightballapi.com/api");
         const { reading } = await questionURL.body.json();
-        await console.log(reading);
         await interaction.reply(
             `Question: ${question} \n Answer: ${reading}`
         );
