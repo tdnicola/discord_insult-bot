@@ -1,6 +1,6 @@
 const { request } = require("undici");
 const { SlashCommandBuilder } = require("discord.js");
-const { updateUserAction } = require('../../db'); 
+const { updateUserAction } = require('../../db');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,14 +15,11 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        await interaction.deferReply();
         const question = interaction.options.getString("question");
-
         const questionURL = await request("https://www.eightballapi.com/api");
         const { reading } = await questionURL.body.json();
-        await interaction.reply(
-            `Question: ${question} \n Answer: ${reading}`
-        );
+        await interaction.editReply(`Question: ${question} \n Answer: ${reading}`);
         await updateUserAction(interaction.user.id, interaction.user.username, 'eightball_asked');
-
     },
 };

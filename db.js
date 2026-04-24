@@ -4,6 +4,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
+const ALLOWED_FIELDS = new Set(['eightball_asked', 'moos_made', 'dadjoke_told', 'gif_posted']);
+const ALLOWED_PREFIXES = new Set(['insult', 'praise']);
+
 async function testConnection() {
   try {
     const result = await pool.query('SELECT to_regclass(\'public.user_stats\') AS table_exists;');
@@ -19,6 +22,9 @@ async function testConnection() {
 
 
 async function updateUserAction(userId, username, fieldPrefix) {
+  if (!ALLOWED_FIELDS.has(fieldPrefix)) {
+    throw new Error(`Invalid fieldPrefix: ${fieldPrefix}`);
+  }
   const countField = `${fieldPrefix}`;
   const timeField = `last_${fieldPrefix}`;
 
@@ -42,6 +48,9 @@ async function updateUserAction(userId, username, fieldPrefix) {
 
 
 async function updateInteractionStats(senderId, senderName, targetId, targetName, prefix) {
+  if (!ALLOWED_PREFIXES.has(prefix)) {
+    throw new Error(`Invalid prefix: ${prefix}`);
+  }
   const senderCount = `${prefix}_given`;
   const targetCount = `${prefix}_received`;
   const senderTime = `last_${prefix}_given`;
